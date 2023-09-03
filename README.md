@@ -10,6 +10,15 @@
 QuestSystem is a simple addon for [Godot 4](https://godotengine.org/) that simplifies the creation of custom quests.
 
 
+## Installing
+
+* Download a [copy](https://codeload.github.com/ShomyKohai/quest-system/zip/refs/heads/main) of the addon
+* Copy the `addons` folder from the downloaded file to your project directory
+
+## Documentation
+
+*Coming soon...*
+
 ## License
 
 This project is under the MIT license, see [LICENSE](LICENSE)
