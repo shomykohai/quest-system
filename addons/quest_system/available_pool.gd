@@ -1,0 +1,2 @@
+extends BaseQuestPool
+class_name AvailableQuestPool

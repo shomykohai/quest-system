@@ -1,0 +1,26 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Quest System"
+config/tags=PackedStringArray("addons")
+run/main_scene="res://test.tscn"
+config/features=PackedStringArray("4.1", "Forward Plus")
+config/icon="res://icon.svg"
+
+[autoload]
+
+QuestSystem="*res://addons/quest_system/quest_manager.gd"
+Gamestate="*res://test/gamestate.gd"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/quest_system/plugin.cfg")
