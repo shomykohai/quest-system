@@ -151,7 +151,7 @@ func dict_to_quests(dict: Dictionary, quests: Array[Quest]) -> void:
 	for pool in get_children():
 
 		# Make sure to iterate only for available pools
-		if !dict.has(pool.name.to_lower()): print("aaa"); continue
+		if !dict.has(pool.name.to_lower()): continue
 
 		# Match quest with their ids and insert them into the quest pool
 		var quest_with_id: Dictionary = {}
