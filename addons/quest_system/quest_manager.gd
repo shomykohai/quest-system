@@ -147,7 +147,6 @@ func quests_as_dict() -> Dictionary:
 	return quest_dict
 
 func dict_to_quests(dict: Dictionary, quests: Array[Quest]) -> void:
-	prints(dict, quests)
 	for pool in get_children():
 
 		# Make sure to iterate only for available pools
