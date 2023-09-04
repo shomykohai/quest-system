@@ -17,7 +17,12 @@ QuestSystem is a simple addon for [Godot 4](https://godotengine.org/) that simpl
 
 ## Documentation
 
-*Coming soon...*
+You can find more detailed documentation on the [wiki](https://github.com/ShomyKohai/quest-system/wiki/) page.
+
+Main pages:
+
+* [How to install the addon](https://github.com/ShomyKohai/quest-system/wiki/How-to-install-the-addon)
+* [API](https://github.com/ShomyKohai/quest-system/wiki/API)
 
 ## License
 
