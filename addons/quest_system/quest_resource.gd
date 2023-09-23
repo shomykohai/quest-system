@@ -12,6 +12,9 @@ var objective_completed: bool = false:
 	get:
 		return objective_completed
 
+func update() -> void:
+	objective_completed = true
+
 func start() -> void:
 	pass
 
