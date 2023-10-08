@@ -104,6 +104,36 @@ func call_quest_method(quest_id: int, method: String, args: Array) -> void:
 	if quest.has_method(method):
 		quest.callv(method, args)
 
+
+func set_quest_property(quest_id: int, property: String, value: Variant) -> void:
+	var quest: Quest = null
+
+	# Find the quest
+	for pools in get_children():
+		if pools.get_quest_from_id(quest_id) != null:
+			quest = pools.get_quest_from_id(quest_id)
+
+	if quest == null: return
+
+	# Now check if the quest has the property
+
+	# First if the property is null -> we return
+	if property == null: return
+
+	var was_property_found: bool = false
+	# Then we check if the property is present
+	for p in quest.get_property_list():
+		print(p)
+		if p.name == property:
+			was_property_found = true
+			break
+
+	# Return if the property was not found
+	if not was_property_found: return
+
+	# Finally we set the value
+	quest.set(property, value)
+
 # Manager API
 
 func add_new_pool(pool_path: String, pool_name: String) -> void:
