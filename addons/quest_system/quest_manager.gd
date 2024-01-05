@@ -5,9 +5,9 @@ signal quest_accepted(quest: Quest) # Emitted when a quest gets moved to the Act
 signal quest_completed(quest: Quest) # Emitted when a quest gets moved to the CompletedPool
 signal new_available_quest(quest: Quest) # Emitted when a quest gets added to the AvailablePool
 
-const AvailableQuestPool = preload("res://addons/quest_system/available_pool.gd")
-const ActiveQuestPool = preload("res://addons/quest_system/active_pool.gd")
-const CompletedQuestPool = preload("res://addons/quest_system/completed_pool.gd")
+const AvailableQuestPool = preload("./available_pool.gd")
+const ActiveQuestPool = preload("./active_pool.gd")
+const CompletedQuestPool = preload("./completed_pool.gd")
 
 
 var available: AvailableQuestPool = AvailableQuestPool.new("Available")
@@ -123,7 +123,6 @@ func set_quest_property(quest_id: int, property: String, value: Variant) -> void
 	var was_property_found: bool = false
 	# Then we check if the property is present
 	for p in quest.get_property_list():
-		print(p)
 		if p.name == property:
 			was_property_found = true
 			break
