@@ -1,5 +1,4 @@
 extends Node
-class_name QuestManager
 
 signal quest_accepted(quest: Quest) # Emitted when a quest gets moved to the ActivePool
 signal quest_completed(quest: Quest) # Emitted when a quest gets moved to the CompletedPool
@@ -162,6 +161,16 @@ func move_quest_to_pool(quest: Quest, old_pool: String, new_pool: String) -> Que
 
 	return quest
 
+
+func reset_pool(pool_name: String) -> void:
+	if pool_name.is_empty():
+		for pool in get_children():
+			pool.quests.clear()
+		return
+
+	var pool := get_node(pool_name)
+	pool.quests.clear()
+	return
 
 
 func quests_as_dict() -> Dictionary:
