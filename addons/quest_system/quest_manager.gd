@@ -196,7 +196,7 @@ func dict_to_quests(dict: Dictionary, quests: Array[Quest]) -> void:
 		pool_ids.append_array(dict[pool.name.to_lower()])
 		for quest in quests:
 			if quest.id in pool_ids:
-				pool.quests.append(quest)
+				pool.add_quest(quest)
 				quests.erase(quest)
 
 
