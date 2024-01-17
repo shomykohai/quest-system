@@ -12,8 +12,8 @@ config_version=5
 
 config/name="Quest System"
 config/tags=PackedStringArray("addons")
-run/main_scene="res://test.tscn"
-config/features=PackedStringArray("4.1", "Forward Plus")
+run/main_scene="res://test/test.tscn"
+config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
