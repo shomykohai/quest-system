@@ -26,9 +26,9 @@ func _init() -> void:
 func start_quest(quest: Quest) -> Quest:
 	assert(quest != null)
 
-	if quest in active.quests:
+	if active.is_quest_inside(quest):
 		return quest
-	if quest in completed.quests: #Throw an error?
+	if completed.is_quest_inside(quest): #Throw an error?
 		return quest
 
 	#Add the quest to the actives quests
@@ -42,7 +42,7 @@ func start_quest(quest: Quest) -> Quest:
 
 
 func complete_quest(quest: Quest) -> Quest:
-	if not quest in active.quests:
+	if not active.is_quest_inside(quest):
 		return quest
 
 	if quest.objective_completed == false:
@@ -59,7 +59,8 @@ func complete_quest(quest: Quest) -> Quest:
 
 
 func mark_quest_as_available(quest: Quest) -> void:
-	if quest in available.quests or quest in completed.quests or quest in active.quests: return
+	if available.is_quest_inside(quest) or completed.is_quest_inside(quest) or active.is_quest_inside(quest):
+		return
 
 	available.add_quest(quest)
 	new_available_quest.emit(quest)
@@ -73,17 +74,17 @@ func get_active_quests() -> Array[Quest]:
 
 
 func is_quest_available(quest: Quest) -> bool:
-	if not (quest in active.quests or quest in completed.quests):
+	if not (active.is_quest_inside(quest) or completed.is_quest_inside(quest)):
 		return true
 	return false
 
 func is_quest_active(quest: Quest) -> bool:
-	if quest in active.quests:
+	if active.is_quest_inside(quest):
 		return true
 	return false
 
 func is_quest_completed(quest: Quest) -> bool:
-	if quest in completed.quests:
+	if completed.is_quest_inside(quest):
 		return true
 	return false
 
@@ -165,11 +166,11 @@ func move_quest_to_pool(quest: Quest, old_pool: String, new_pool: String) -> Que
 func reset_pool(pool_name: String) -> void:
 	if pool_name.is_empty():
 		for pool in get_children():
-			pool.quests.clear()
+			pool.reset()
 		return
 
 	var pool := get_node(pool_name)
-	pool.quests.clear()
+	pool.reset()
 	return
 
 

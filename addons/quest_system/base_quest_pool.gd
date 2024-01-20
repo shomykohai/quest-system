@@ -36,3 +36,6 @@ func get_ids_from_quests() -> Array[int]:
 	for quest in quests:
 		ids.append(quest.id)
 	return ids
+
+func reset() -> void:
+	quests.clear()
