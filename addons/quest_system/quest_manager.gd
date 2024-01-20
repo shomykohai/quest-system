@@ -88,6 +88,16 @@ func is_quest_completed(quest: Quest) -> bool:
 		return true
 	return false
 
+func is_quest_in_pool(quest: Quest, pool_name: String) -> bool:
+	if pool_name.is_empty():
+		for pool in get_children():
+			if pool.is_quest_inside(quest): return true
+		return false
+
+	var pool := get_node(pool_name)
+	if pool.is_quest_inside(quest): return true
+	return false
+
 
 func call_quest_method(quest_id: int, method: String, args: Array) -> void:
 	var quest: Quest = null
