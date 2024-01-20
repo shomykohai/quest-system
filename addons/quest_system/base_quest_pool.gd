@@ -30,3 +30,9 @@ func get_quest_from_id(id: int) -> Quest:
 
 func is_quest_inside(quest: Quest) -> bool:
 	return quest in quests
+
+func get_ids_from_quests() -> Array[int]:
+	var ids: Array[int] = []
+	for quest in quests:
+		ids.append(quest.id)
+	return ids

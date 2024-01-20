@@ -177,10 +177,7 @@ func quests_as_dict() -> Dictionary:
 	var quest_dict: Dictionary = {}
 
 	for pool in get_children():
-		var quest_ids: Array[int] = []
-		for quest in pool.quests:
-			quest_ids.append(quest.id)
-		quest_dict[pool.name.to_lower()] = quest_ids
+		quest_dict[pool.name.to_lower()] = pool.get_ids_from_quests()
 
 	return quest_dict
 
