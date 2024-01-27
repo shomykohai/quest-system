@@ -15,4 +15,4 @@ If this PR fixes an issue, please reference it.
 - [ ] This PR adds something new.
 - [ ] This PR fixes an issue. <!-- Please reference the issue -->
 - [ ] This PR includes breaking changes.
-- [ ] This PR is not code related (e.g. README)
+- [ ] This PR is not code related (e.g. README, Documentation)
