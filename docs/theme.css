@@ -1,0 +1,14 @@
+:root {
+    /* APP */
+    --base-background-color: #1b1e24;
+
+    /* Content */
+    --link-color: #ff9100;
+    --link-text-decoration: ;
+
+    /* Sidebar */
+    --sidebar-background: #1b1e24;
+
+    /* Search */
+    --search-background: #1b1e24;
+}
