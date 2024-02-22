@@ -1,3 +1,4 @@
+@icon("./assets/quest_resource.svg")
 extends Resource
 class_name Quest
 
