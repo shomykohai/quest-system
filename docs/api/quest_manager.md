@@ -25,6 +25,7 @@ It handles all the [quest pools] and also provide helpers to add more pools or m
 | [**is_quest_available**](#bool-is_quest_availablequest-quest)**(quest:** [Quest](/api/quest_resource.md)**)** | [bool](https://docs.godotengine.org/en/stable/classes/class_bool.html) |
 | [**is_quest_active**](#bool-is_quest_activequest-quest)**(quest:** [Quest](/api/quest_resource.md)**)** | [bool](https://docs.godotengine.org/en/stable/classes/class_bool.html) |
 | [**is_quest_completed**](#bool-is_quest_completedquest-quest)**(quest:** [Quest](/api/quest_resource.md)**)** | [bool](https://docs.godotengine.org/en/stable/classes/class_bool.html) |
+| [**is_quest_in_pool**](#bool-is_quest_in_poolquest-quest-pool_name-string)**(quest:** [Quest](/api/quest_resource.md), **pool_name:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | [bool](https://docs.godotengine.org/en/stable/classes/class_bool.html) |
 | [**call_quest_method**](#void-call_quest_methodquest_id-int-method-string--args-array)**(quest_id:** [int](https://docs.godotengine.org/en/stable/classes/class_int.html), **method:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html),  **args:** [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**)** | **void** |
 | [**add_new_pool**](#void-add_new_poolpool_path-string-pool_name-string)**(pool_path:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html), **pool_name:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | **void** |
 | [**move_quest_to_pool**](#quest-move_quest_to_poolquest-quest-old_pool-string-new_pool-string)**(quest:** [Quest](/api/quest_resource.md), **old_pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html), **new_pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | [Quest](/api/quest_resource.md) |
@@ -72,6 +73,10 @@ It handles all the [quest pools] and also provide helpers to add more pools or m
 
 #### _[bool](https://docs.godotengine.org/en/stable/classes/class_bool.html)_ **is_quest_completed(quest:** [Quest](/api/quest_resource.md)**)**
 > Checks if the given quest is inside the completed pool. Returns `true` if the quest is found.
+
+#### _[bool](https://docs.godotengine.org/en/stable/classes/class_bool.html)_ **is_quest_in_pool(quest:** [Quest](/api/quest_resource.md), **pool_name:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)**
+> Checks if the given quest is inside the requested pool. Returns `true` if the quest is found. <br>
+> If no pool with the given name is found, returns `false`.
 
 #### _void_ **call_quest_method(quest_id:** [int](https://docs.godotengine.org/en/stable/classes/class_int.html), **method:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html),  **args:** [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**)**
 > Calls any given method inside a specific quest without the need to have a direct reference to the Quest Resource.<br>
