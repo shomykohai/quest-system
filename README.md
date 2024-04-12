@@ -26,6 +26,9 @@ Main pages:
 * [How to install the addon](https://shomykohai.github.io/quest-system/#/installing)
 * [API](https://shomykohai.github.io/quest-system/#/api/)
 
+
+Additionally you can find a basic example project on the [quest-system-example](https://github.com/ShomyKohai/quest-system-example) repo.
+
 ## License
 
 This project is under the MIT license, see [LICENSE](LICENSE)
