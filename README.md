@@ -24,6 +24,7 @@ You can find more detailed documentation on the [wiki](https://shomykohai.github
 Main pages:
 
 * [How to install the addon](https://shomykohai.github.io/quest-system/#/installing)
+* [Localisation](https://shomykohai.github.io/quest-system/#/translations)
 * [API](https://shomykohai.github.io/quest-system/#/api/)
 
 
