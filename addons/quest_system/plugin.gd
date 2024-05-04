@@ -1,7 +1,7 @@
 @tool
 extends EditorPlugin
 
-const QuestPropertyTranslationPlugin = preload("res://addons/quest_system/translation_plugin.gd")
+const QuestPropertyTranslationPlugin = preload("./translation_plugin.gd")
 
 var translation_plugin: QuestPropertyTranslationPlugin
 
