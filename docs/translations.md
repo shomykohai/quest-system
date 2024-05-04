@@ -31,7 +31,7 @@ Let's assume we have a quest resource populated with the following data:<br>
 <br>
 Now we want to show the quest name in the label of the UI:
 
-```js
+```gdscript
 # ui.gd
 
 extends Node
