@@ -34,14 +34,14 @@ func _on_download_button_pressed():
 	http_request.request(DOWNLOAD_URL % new_ver)
 	download_button.text = "Downloading..."
 	download_button.disabled = true
-	
+
 
 func _on_http_request_request_completed(result, response_code, headers, body):
 	if result != HTTPRequest.RESULT_SUCCESS:
 		download_button.text = "Download failed. Try again later."
 		download_button.disabled = false
 		return
-	
+
 	_save_zip(body)
 
 	var zip := ZIPReader.new()
@@ -50,13 +50,13 @@ func _on_http_request_request_completed(result, response_code, headers, body):
 
 	var zip_base_path: String = files[1]
 	var save_path: String = plugin_path.get_base_dir()
-	
+
 	# Remove archive and repo base path from file list
 	files.remove_at(0)
 	files.remove_at(0)
 
 	OS.move_to_trash(ProjectSettings.globalize_path(plugin_path))
-	
+
 	for path in files:
 		var new_path := path.replace(zip_base_path, "")
 		if path.ends_with("/"):
@@ -64,9 +64,10 @@ func _on_http_request_request_completed(result, response_code, headers, body):
 		else:
 			var file := FileAccess.open(save_path + "/%s" % new_path, FileAccess.WRITE)
 			file.store_buffer(zip.read_file(path))
-			file.close()
-	
+
 	zip.close()
+	DirAccess.remove_absolute(TEMP_FILE_PATH)
+
 	updated.emit()
 
 	download_button.text = "Updated!"

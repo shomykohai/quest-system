@@ -70,6 +70,7 @@ func _on_update_button_pressed(old_ver: String, new_ver: String) -> void:
 	await update_panel.updated
 	update_panel.queue_free()
 	update_button.queue_free()
+	EditorInterface.get_resource_filesystem().scan()
 	EditorInterface.call_deferred("set_plugin_enabled", "quest_system", true)
 	EditorInterface.set_plugin_enabled("quest_system", false)
 	print_rich("[color=cyan][!][/color] [b]QuestSystem updated to version: [color=cyan]%s[/color][/b]" % new_ver)
