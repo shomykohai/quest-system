@@ -7,6 +7,10 @@ class_name Quest
 @export_multiline var quest_description: String
 @export_multiline var quest_objective: String
 
+signal started
+signal updated
+signal completed
+
 var objective_completed: bool = false:
 	set(value):
 		objective_completed = value
@@ -14,10 +18,10 @@ var objective_completed: bool = false:
 		return objective_completed
 
 func update() -> void:
-	objective_completed = true
+	updated.emit()
 
 func start() -> void:
-	pass
+	started.emit()
 
 func complete() -> void:
-	pass
+	completed.emit()
