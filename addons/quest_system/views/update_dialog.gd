@@ -55,6 +55,8 @@ func _on_http_request_request_completed(result, response_code, headers, body):
 	files.remove_at(0)
 	files.remove_at(0)
 
+	OS.move_to_trash(ProjectSettings.globalize_path(plugin_path))
+	
 	for path in files:
 		var new_path := path.replace(zip_base_path, "")
 		if path.ends_with("/"):
