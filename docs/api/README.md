@@ -1,6 +1,6 @@
 ## What is QuestSystem?
 
-QuestSystem is a simple and extesdible quest manager for Godot 4.x
+QuestSystem is a simple and extesible quest manager for Godot 4.x
 
 It provides a simple API and some default helpers methods to manage quests for your game.
 

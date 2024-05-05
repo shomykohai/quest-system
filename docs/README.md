@@ -1,7 +1,4 @@
-<h1  align="center">
-<image src="./assets/logo.svg" alt="QuestSystem" width=128><br>
-📜 QuestSystem 📜
-</h1>
+![QuestSystem Banner](assets\banner.png)
 
 [![TwitterShomy](https://img.shields.io/badge/-shomykohai-1DA1F2?style=flat&logo=twitter&logoColor=white&labelColor=1DA1F2)](https://twitter.com/shomykohai)
 [![GodotEngine](https://img.shields.io/badge/-Godot%204-250a78?style=flat&logo=godotengine&logoColor=white&labelColor=250a78)](https://godotengine.org/)
