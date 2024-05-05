@@ -68,6 +68,7 @@ func _on_update_button_pressed(old_ver: String, new_ver: String) -> void:
 	update_panel.popup_centered()
 	update_panel.prepare()
 	await update_panel.updated
+	update_panel.queue_free()
 	update_button.queue_free()
 	EditorInterface.call_deferred("set_plugin_enabled", "quest_system", true)
 	EditorInterface.set_plugin_enabled("quest_system", false)
