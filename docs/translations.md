@@ -28,8 +28,16 @@ Let's assume we have a quest resource populated with the following data:<br>
 | quest_objective   | Help the old man find his hammer.                                                                 |
 
 
+After filling the quest data, we will generate the POT file and make the translations.<br>
+
+| msgid                       | en                                                                                                | it                                                                                                  |   |   |
+|---------------------------|---------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|---|---|
+| quest_1/quest_name        | The Old Man lost hammer                                                                           | Il martello perduto dell'anziano.                                                                   |   |   |
+| quest_1/quest_description | The old man lost his hammer and he cannot find it anywhere. He's looking for someone to help him. | L'anziano ha perso il suo martello e non riesce più a trovarlo. Sta cercando qualcuno che lo aiuti. |   |   |
+| quest_1/quest_objective   | Help the old man find his hammer.                                                                 | Aiuta l'anziano a trovare il suo martello.                                                          |   |   |
+
 <br>
-Now we want to show the quest name in the label of the UI:
+Finally, we want to show the quest name in the label of the UI:
 
 ```gdscript
 # ui.gd
@@ -39,7 +47,11 @@ extends Node
 @onready var label: Label = $Label
 
 func _ready()
-    label.text = tr("quest_1/quest_name") # The Old man lost hammer 
+    # locale: en
+    label.text = tr("quest_1/quest_name") # The Old man lost hammer
+    TranslationServer.set_locale("it") # set locale to: it
+    label.text = tr("quest_1/quest_name") # Il martello perduto dell'anziano.
+
 ```
 
 
