@@ -32,11 +32,23 @@ To make a custom quest make a script that inherits `Quest` and implement your ow
 | [**complete**](#void-complete)**()** | **void** |
 | [**update**](#void-update)**()** | **void** |
 
---------------
-
 #### _void_ **start()**
 > Gets called after [start_quest](#quest-start_questquest-quest) 
 #### _void_ **complete()**
 > Gets called after [complete_quest](#quest-complete_questquest-quest) only if `objective_completed` is set to `true`
 #### _void_ **update()**
 > Abstract method to update the quest progress. It is suggested to set `objective_completed` to `true` here.
+
+--------------
+
+### Signals
+
+| signal | description |
+| ------ | ----------- |
+| started() | Emitted when the `start()` method is invoked |
+| updated() | Emitted when the `update()` method is invoked |
+| completed() | Emitted when the `complete()` method is invoked |
+
+In order to have these called in your own resources that extend `Quest`, remember to call `super.update()` in your `update` implementation, `super.start()` in your `start` implementation and `super.complete()` in your `complete` implementation.
+
+You can also call `emit()` on `started`, `updated` and `completed` signals from your implementation in any of the functions that would require that (for instance if your UI relies on these signals to update itself).
