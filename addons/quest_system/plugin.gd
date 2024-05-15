@@ -3,12 +3,14 @@ extends EditorPlugin
 
 const REMOTE_RELEASE_URL: String = "https://api.github.com/repos/shomykohai/quest-system/releases/latest"
 const QuestPropertyTranslationPlugin = preload("./translation_plugin.gd")
+const QuestSystemSettings = preload("./settings.gd")
 
 var update_button: Button = null
 var translation_plugin: QuestPropertyTranslationPlugin
 
 func _enter_tree() -> void:
 	add_autoload_singleton("QuestSystem", "quest_manager.gd")
+	QuestSystemSettings.initialize(_get_plugin_path())
 	if Engine.is_editor_hint():
 		translation_plugin = QuestPropertyTranslationPlugin.new()
 		add_translation_parser_plugin(translation_plugin)
