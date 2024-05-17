@@ -16,15 +16,15 @@ var completed: CompletedQuestPool = CompletedQuestPool.new("Completed")
 
 func _init() -> void:
 	# Ovverride default pools if specified in project settings.
-	if available.get_script().resource_path != QuestSystemSettings.get_config_setting("use_available_pool"):
-		var pool := load(QuestSystemSettings.get_config_setting("use_available_pool"))
-		available = pool.new()
-	if active.get_script().resource_path != QuestSystemSettings.get_config_setting("use_active_pool"):
-		var pool := load(QuestSystemSettings.get_config_setting("use_active_pool"))
-		active = pool.new()
-	if completed.get_script().resource_path != QuestSystemSettings.get_config_setting("use_completed_pool"):
-		var pool := load(QuestSystemSettings.get_config_setting("use_completed_pool"))
-		completed = pool.new()
+	if available.get_script().resource_path != QuestSystemSettings.get_config_setting("available_quest_pool_path", available.get_script().resource_path):
+		var pool := load(QuestSystemSettings.get_config_setting("available_quest_pool_path"))
+		available = pool.new("Available")
+	if active.get_script().resource_path != QuestSystemSettings.get_config_setting("active_quest_pool_path", active.get_script().resource_path):
+		var pool := load(QuestSystemSettings.get_config_setting("active_quest_pool_path"))
+		active = pool.new("Active")
+	if completed.get_script().resource_path != QuestSystemSettings.get_config_setting("completed_quest_pool_path", completed.get_script().resource_path):
+		var pool := load(QuestSystemSettings.get_config_setting("completed_quest_pool_path"))
+		completed = pool.new("Completed")
 
 	add_child(available)
 	add_child(active)

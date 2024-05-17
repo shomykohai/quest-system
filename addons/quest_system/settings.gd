@@ -45,5 +45,5 @@ static func _init_setting(name: String, default_value: Variant, type:=typeof(def
 	ProjectSettings.add_property_info(hint_info)
 	ProjectSettings.save()
 
-static func get_config_setting(name: String) -> Variant:
-	return ProjectSettings.get_setting(CONFIG_CATEGORY + name)
+static func get_config_setting(name: String, default: Variant = null) -> Variant:
+	return ProjectSettings.get_setting(CONFIG_CATEGORY + "/" + name, default)

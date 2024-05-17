@@ -9,8 +9,8 @@ var update_button: Button = null
 var translation_plugin: QuestPropertyTranslationPlugin
 
 func _enter_tree() -> void:
-	add_autoload_singleton("QuestSystem", "quest_manager.gd")
 	QuestSystemSettings.initialize(_get_plugin_path())
+	add_autoload_singleton("QuestSystem", "quest_manager.gd")
 	if Engine.is_editor_hint():
 		translation_plugin = QuestPropertyTranslationPlugin.new()
 		add_translation_parser_plugin(translation_plugin)
