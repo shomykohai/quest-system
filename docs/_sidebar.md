@@ -1,6 +1,7 @@
 - [📦 Introduction](/)
   - [🔹 Installation](/installing.md)
   - [ 🌍 Translations](/translations.md)
+  - [ 🔧 Settings](/settings.md)
 - [📗 Manual](/api/ "📗 Manual")
     - [🔌 QuestSystem](/api/quest_manager.md "🔌 QuestSystem API")
     - [📜 Quest](/api/quest_resource.md "📜 Quest")
