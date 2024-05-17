@@ -22,7 +22,7 @@ static func initialize(plugin_path: StringName) -> void:
 	_init_setting(
 		CONFIG_CATEGORY + "/additional_pools",
 		[],
-		TYPE_ARRAY, PROPERTY_HINT_FILE)
+		TYPE_ARRAY, PROPERTY_HINT_TYPE_STRING, ("%s:" % TYPE_STRING))
 	
 	# Default Pools settings
 	_init_setting(
