@@ -15,10 +15,24 @@ var completed: CompletedQuestPool = CompletedQuestPool.new("Completed")
 
 
 func _init() -> void:
+	# Ovverride default pools if specified in project settings.
+	if available.get_script().resource_path != QuestSystemSettings.get_config_setting("use_available_pool"):
+		var pool := load(QuestSystemSettings.get_config_setting("use_available_pool"))
+		available = pool.new()
+	if active.get_script().resource_path != QuestSystemSettings.get_config_setting("use_active_pool"):
+		var pool := load(QuestSystemSettings.get_config_setting("use_active_pool"))
+		active = pool.new()
+	if completed.get_script().resource_path != QuestSystemSettings.get_config_setting("use_completed_pool"):
+		var pool := load(QuestSystemSettings.get_config_setting("use_completed_pool"))
+		completed = pool.new()
+
 	add_child(available)
 	add_child(active)
 	add_child(completed)
 
+	for pool_path in ProjectSettings.get_setting("quest_system/config/additional_pools", []):
+		var pool_name: String = pool_path.get_file().split(".")[0].to_pascal_case()
+		add_new_pool(pool_path, pool_name)
 
 # Quest API
 
@@ -45,7 +59,7 @@ func complete_quest(quest: Quest) -> Quest:
 	if not active.is_quest_inside(quest):
 		return quest
 
-	if quest.objective_completed == false:
+	if quest.objective_completed == false and QuestSystemSettings.get_config_setting("require_objective_completed"):
 		return quest
 
 	quest.complete()
