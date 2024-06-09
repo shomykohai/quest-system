@@ -15,12 +15,13 @@ func _enter_tree() -> void:
 		translation_plugin = QuestPropertyTranslationPlugin.new()
 		add_translation_parser_plugin(translation_plugin)
 		# Check for new version
-		var http_request := HTTPRequest.new()
-		http_request.request_completed.connect(_http_request_completed)
-		EditorInterface.get_base_control().add_child(http_request)
-		http_request.request(REMOTE_RELEASE_URL)
-		await http_request.request_completed
-		http_request.queue_free()
+		if QuestSystemSettings.get_config_setting("check_for_updates_on_startup", true):
+			var http_request := HTTPRequest.new()
+			http_request.request_completed.connect(_http_request_completed)
+			EditorInterface.get_base_control().add_child(http_request)
+			http_request.request(REMOTE_RELEASE_URL)
+			await http_request.request_completed
+			http_request.queue_free()
 
 func _exit_tree() -> void:
 	remove_autoload_singleton("QuestSystem")
@@ -40,13 +41,13 @@ func _get_plugin_path() -> String:
 func _http_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray):
 	if result != HTTPRequest.RESULT_SUCCESS:
 		return
-	
+
 	var data: Dictionary = JSON.parse_string(body.get_string_from_utf8())
 	if _version_to_int(data["tag_name"]) <= _version_to_int(get_plugin_version()):
 		return
-	
+
 	var title_bar: Node = null
-	
+
 	# Here we get the title bar node in a unconventional way
 	for node in EditorInterface.get_base_control().get_children(true):
 		if node is VBoxContainer:
@@ -60,7 +61,7 @@ func _http_request_completed(result: int, response_code: int, headers: PackedStr
 	update_button.pressed.connect(_on_update_button_pressed.bind(get_plugin_version(), data["tag_name"]))
 	title_bar.add_child(update_button)
 	title_bar.move_child(update_button, title_bar.get_child_count(true) - 3)
-	
+
 func _on_update_button_pressed(old_ver: String, new_ver: String) -> void:
 	var update_panel: AcceptDialog = load(_get_plugin_path()+"/views/update_dialog.tscn").instantiate()
 	update_panel.set_meta("old_ver", old_ver)
