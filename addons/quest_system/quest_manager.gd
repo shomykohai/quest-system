@@ -72,6 +72,23 @@ func complete_quest(quest: Quest, args: Dictionary = {}) -> Quest:
 	return quest
 
 
+func update_quest(quest: Quest, args: Dictionary = {}) -> Quest:
+	var pool_with_quest: BaseQuestPool = null
+
+	for pool in get_children():
+		if pool.is_quest_inside(quest):
+			pool_with_quest = pool
+			break
+
+	if pool_with_quest == null:
+		push_warning("Tried calling update on a Quest that is not in any pool.")
+		return quest
+
+	quest.update(args)
+
+	return quest
+
+
 func mark_quest_as_available(quest: Quest) -> void:
 	if available.is_quest_inside(quest) or completed.is_quest_inside(quest) or active.is_quest_inside(quest):
 		return
