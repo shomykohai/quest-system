@@ -17,11 +17,11 @@ var objective_completed: bool = false:
 	get:
 		return objective_completed
 
-func update() -> void:
+func update(_args: Dictionary = {}) -> void:
 	updated.emit()
 
-func start() -> void:
+func start(_args: Dictionary = {}) -> void:
 	started.emit()
 
-func complete() -> void:
+func complete(_args: Dictionary = {}) -> void:
 	completed.emit()

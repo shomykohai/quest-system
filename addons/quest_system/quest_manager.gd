@@ -37,7 +37,7 @@ func _init() -> void:
 # Quest API
 
 
-func start_quest(quest: Quest) -> Quest:
+func start_quest(quest: Quest, args: Dictionary = {}) -> Quest:
 	assert(quest != null)
 
 	if active.is_quest_inside(quest):
@@ -50,19 +50,19 @@ func start_quest(quest: Quest) -> Quest:
 	active.add_quest(quest)
 	quest_accepted.emit(quest)
 
-	quest.start()
+	quest.start(args)
 
 	return quest
 
 
-func complete_quest(quest: Quest) -> Quest:
+func complete_quest(quest: Quest, args: Dictionary = {}) -> Quest:
 	if not active.is_quest_inside(quest):
 		return quest
 
 	if quest.objective_completed == false and QuestSystemSettings.get_config_setting("require_objective_completed"):
 		return quest
 
-	quest.complete()
+	quest.complete(args)
 
 	active.remove_quest(quest)
 	completed.add_quest(quest)
