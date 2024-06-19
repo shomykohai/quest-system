@@ -181,8 +181,8 @@ func move_quest_to_pool(quest: Quest, old_pool: String, new_pool: String) -> Que
 
 	assert(old_pool_instance != null or new_pool_instance != null)
 
-	old_pool_instance.quests.erase(quest)
-	new_pool_instance.quests.append(quest)
+	old_pool_instance.remove_quest(quest)
+	new_pool_instance.add_quest(quest)
 
 	return quest
 
