@@ -10,3 +10,5 @@
         - [🗃 AvailableQuestPool](/api/quest_pool/available_quest_pool.md "🗃 AvailableQuestPool") 
         - [🗃 ActiveQuestPool](/api/quest_pool/active_quest_pool.md "🗃 ActiveQuestPool") 
         - [🗃 CompletedQuestPool](/api/quest_pool/completed_quest_pool.md "🗃 CompletedQuestPool") 
+- [📨 Migrations](/)
+  - [🔸 1.2.3 to 1.3+](migrate_1.2.3_to_1.3.md)
