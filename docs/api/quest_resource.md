@@ -1,5 +1,3 @@
---------------
-
 ## `Quest`
 **Inherits:** [Resource](https://docs.godotengine.org/en/stable/classes/class_resource.html)
 ### Description
@@ -28,16 +26,16 @@ To make a custom quest make a script that inherits `Quest` and implement your ow
 
 | Name | Return Type |
 | ---- | ----------- |
-| [**start**](#void-start)**()** | **void** |
-| [**complete**](#void-complete)**()** | **void** |
-| [**update**](#void-update)**()** | **void** |
+| [**start**](#void-start_args-dictionary--)**(_args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)** | **void** |
+| [**complete**](#void-complete_args-dictionary--)**(_args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)** | **void** |
+| [**update**](#void-update_args-dictionary--)**(_args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)** | **void** |
 
-#### _void_ **start()**
+#### _void_ **start(_args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)**
 > Gets called after [start_quest](#quest-start_questquest-quest) 
-#### _void_ **complete()**
+#### _void_ **complete(_args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)**
 > Gets called after [complete_quest](#quest-complete_questquest-quest) only if `objective_completed` is set to `true`
-#### _void_ **update()**
-> Abstract method to update the quest progress. It is suggested to set `objective_completed` to `true` here.
+#### _void_ **update(_args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)**
+> Virtual method to update the quest progress. It is suggested to set `objective_completed` to `true` here.
 
 --------------
 
