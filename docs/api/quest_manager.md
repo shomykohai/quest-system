@@ -17,8 +17,9 @@ It handles all the [quest pools] and also provide helpers to add more pools or m
 
 | Name | Return Type |
 | ---- | ----------- |
-| [**start_quest**](#quest-start_questquest-quest)**(quest:** [Quest](/api/quest_resource.md)**)** | [Quest](/api/quest_resource.md) |
-| [**complete_quest**](#quest-complete_questquest-quest)**(quest:** [Quest](/api/quest_resource.md)**)** | [Quest](/api/quest_resource.md) |
+| [**start_quest**](#quest-start_questquest-quest-args-dictionary--)**(quest:** [Quest](/api/quest_resource.md)**, args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)**  | [Quest](/api/quest_resource.md) |
+| [**complete_quest**](#quest-complete_questquest-quest-args-dictionary--)**(quest:** [Quest](/api/quest_resource.md)**, args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)**  | [Quest](/api/quest_resource.md) |
+| [**update_quest**](#quest-update_questquest-quest-args-dictionary--)**(quest:** [Quest](/api/quest_resource.md)**, args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)** | [Quest](/api/quest_resource.md) |
 | [**mark_quest_as_available**](#void-mark_quest_as_availablequest-quest)**(quest:** [Quest](/api/quest_resource.md)**)** | **void** |
 | [**get_available_quests**](#arrayquest-get_available_quests)**()** | [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[Quest](/api/quest_resource.md)]** |
 | [**get_active_quests**](#arrayquest-get_active_quests)**()** | [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[Quest](/api/quest_resource.md)]** |
@@ -41,19 +42,28 @@ It handles all the [quest pools] and also provide helpers to add more pools or m
 | new_available_quest(quest: [Quest](/api/quest_resource.md)) | Emitted when a quest gets added to the AvailablePool |
 
 --------------
-#### _[Quest](/api/quest_resource.md)_ **start_quest(quest:** [Quest](/api/quest_resource.md)**)**
+#### _[Quest](/api/quest_resource.md)_ **start_quest(quest:** [Quest](/api/quest_resource.md)**, args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)**
 > Starts a given quest by calling its [start()]() method and moving it from the available pool to the active pool.<br><br>
 > Can be called even if the quest is not in the available pool.<br>
 > If the quest is already in the active pool or in the complete pool, it won't do nothing and returns back the quest.<br><br>
+> Additional data can be passed as a dictionary using the optional `args` parameter.<br>
+>
 > It also emits the [quest_accepted signal](#signals)
 
-#### _[Quest](/api/quest_resource.md)_ **complete_quest(quest:** [Quest](/api/quest_resource.md)**)**
+#### _[Quest](/api/quest_resource.md)_ **complete_quest(quest:** [Quest](/api/quest_resource.md)**, args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)**
 > Stops a given quest by calling its [complete()]() method and moving it from the active pool to the completed pool.<br><br>
 > If the quest is not in the active pool, it won't do nothing and returns back the quest.<br><br>
 >
 > **If the [objective_completed]() property of the quest is not set to true when the complete() method gets called, it will not mark the quest as completed and instead return back the quest object.**
 >
+> Additional data can be passed as a dictionary using the optional `args` parameter.<br>
+>
 > It also emits the [quest_completed signal](#signals)
+
+#### _[Quest](/api/quest_resource.md)_ **update_quest(quest:** [Quest](/api/quest_resource.md)**, args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)**
+> Updates the given quest by calling its [update()]() method.<br>
+>
+> Additional data can be passed as a dictionary using the optional `args` parameter.
 
 #### _void_ **mark_quest_as_available(quest:** [Quest](/api/quest_resource.md)**)**
 > Adds a quest to the available pool if not already present in any of the [default pools](#properties)<br>
