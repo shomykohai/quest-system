@@ -29,10 +29,14 @@ It handles all the [quest pools] and also provide helpers to add more pools or m
 | [**is_quest_in_pool**](#bool-is_quest_in_poolquest-quest-pool_name-string)**(quest:** [Quest](/api/quest_resource.md), **pool_name:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | [bool](https://docs.godotengine.org/en/stable/classes/class_bool.html) |
 | [**call_quest_method**](#void-call_quest_methodquest_id-int-method-string--args-array)**(quest_id:** [int](https://docs.godotengine.org/en/stable/classes/class_int.html), **method:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html),  **args:** [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**)** | **void** |
 | [**add_new_pool**](#void-add_new_poolpool_path-string-pool_name-string)**(pool_path:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html), **pool_name:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | **void** |
+| [**get_pool**]()**(pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | [BaseQuestPool](quest_pool/base_quest_pool.md) |
+| [**get_all_pools()**]() | [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[BaseQuestPool](quest_pool/base_quest_pool.md)]** |
 | [**move_quest_to_pool**](#quest-move_quest_to_poolquest-quest-old_pool-string-new_pool-string)**(quest:** [Quest](/api/quest_resource.md), **old_pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html), **new_pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | [Quest](/api/quest_resource.md) |
 | [**quests_as_dict**](#dictionary-quests_as_dict)**()** | [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) |
 | [**dict_to_quests**](#void-dict_to_questsdict-dictionary-quests-arrayquest)**(dict:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html), **quests:** [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[Quest](/api/quest_resource.md)])** | **void** |
 | [**serialize_quests**](#dictionary-serialize_questspool-string)**(pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) |
+| [**deserialize_quests**](#dictionary-serialize_questspool-string)**(data:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html)**, pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html) = ""**)** | [Error](https://docs.godotengine.org/en/stable/classes/class_%40globalscope.html#enum-globalscope-error) |
+
 
 ### Signals
 | signal | description |
@@ -99,6 +103,13 @@ It handles all the [quest pools] and also provide helpers to add more pools or m
 > Adds a custom quest pool.<br>
 > You'll need to reference the path of a Script that inherits [BaseQuestPool](/api/quest_pool/base_quest_pool.md) for `pool_path` and give the pool a name.
 
+#### _[BaseQuestPool](quest_pool/base_quest_pool.md)_ **get_pool(pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)**
+> Returns a quest pool given its name.
+
+
+#### _[Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[BaseQuestPool](quest_pool/base_quest_pool.md)]**_ **get_all_pools()**
+> Returns all quest pools in the scene tree.
+
 #### _[Quest](/api/quest_resource.md)_ **move_quest_to_pool(quest:** [Quest](/api/quest_resource.md), **old_pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html), **new_pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)**
 > Forcefully move a quest from a pool to another
 
@@ -117,7 +128,7 @@ It handles all the [quest pools] and also provide helpers to add more pools or m
 > If a pool in the dictionary is not present in the QuestSystem children, it gets skipped.
 
 #### _[Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html)_ **serialize_quests(pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)**
-> Serialize all the properties of the quests of a pool and returns them as a dictionary.<br>
+> Serialize all the properties of all quests and returns them as a dictionary.<br>
 > ```json
 > { 
 >    "1": 
@@ -130,4 +141,13 @@ It handles all the [quest pools] and also provide helpers to add more pools or m
 > }
 > ```
 >
-> If a quest has custom properties they will also get serialized.
+> If a quest has custom properties they will also get serialized.<br>
+> Passing the name of a pool as an argument, serializes only the quests of said pool.<br>
+> To change the behaviour, and thus which properties get serialized, override [serialize()](quest_resource.md#) 
+
+#### _[Error](https://docs.godotengine.org/en/stable/classes/class_%40globalscope.html#enum-globalscope-error)_ **deserialize_quests(data:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html)**, pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html) = ""**)**
+> Loads all the data inside of all the currently loaded quests.<br>
+> If a quest has custom properties they will also get serialized.<br><br>
+> Returns [OK](https://docs.godotengine.org/en/stable/classes/class_%40globalscope.html#enum-globalscope-error)<br><br>
+> Passing the name of a pool as an argument, serializes only the quests of said pool.<br>
+> If the pool is not found, [ERR_DOES_NOT_EXIST](https://docs.godotengine.org/en/stable/classes/class_%40globalscope.html#enum-globalscope-error) is returned.
