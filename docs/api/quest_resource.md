@@ -20,7 +20,7 @@ To make a custom quest make a script that inherits `Quest` and implement your ow
 | `quest_name`   | [String](https://docs.godotengine.org/en/stable/classes/class_string.html) | The name of a quest |
 | `quest_description` | [String](https://docs.godotengine.org/en/stable/classes/class_string.html) | Description of the quest |
 | `quest_objective` | [String](https://docs.godotengine.org/en/stable/classes/class_string.html) | Description of the objective of the quest |
-| `objective_completed` **_= false_** | [bool](https://docs.godotengine.org/en/stable/classes/class_bool.html) | Tracks the progress of the quest.<br>If it's false, the quest can't be moved to the CompletedPool | 
+| `objective_completed` **_= false_** | [bool](https://docs.godotengine.org/en/stable/classes/class_bool.html) | Tracks the progress of the quest.<br>If it's false, the quest can't be moved to the CompletedPool |
 
 ### Methods
 
@@ -29,6 +29,8 @@ To make a custom quest make a script that inherits `Quest` and implement your ow
 | [**start**](#void-start_args-dictionary--)**(_args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)** | **void** |
 | [**complete**](#void-complete_args-dictionary--)**(_args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)** | **void** |
 | [**update**](#void-update_args-dictionary--)**(_args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)** | **void** |
+| [**serialize()**](#dictionary-serialize) | [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) |
+| [**deserialize**](#void-deserializedata-dictionary)**(data:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html)**)** | **void** |
 
 #### _void_ **start(_args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)**
 > Gets called after [start_quest](#quest-start_questquest-quest) 
@@ -36,7 +38,13 @@ To make a custom quest make a script that inherits `Quest` and implement your ow
 > Gets called after [complete_quest](#quest-complete_questquest-quest) only if `objective_completed` is set to `true`
 #### _void_ **update(_args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)**
 > Virtual method to update the quest progress. It is suggested to set `objective_completed` to `true` here.
-
+#### _[Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html)_ **serialize()**
+> Serializes the quest.<br>
+> It's suggested to override this in your implementation to have more control over what's serialized.<br><br>
+> By default, every variable (excluding [id](#properties)), exported or not, is serialized.
+#### _void_ **deserialize(data:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html)**)**
+> Loads serialized data back into the Quest.<br>
+> Normally there's no need to override this method, do it only if you need more control over the deserialization process.
 --------------
 
 ### Signals

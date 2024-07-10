@@ -24,6 +24,7 @@ You need to pass a name to give to the pool in the constructor of the class.
 | [**get_quest_from_id**](#quest-get_quest_from_idid-int)**(id:** [int](https://docs.godotengine.org/en/stable/classes/class_int.html)**)** | [Quest](/api/quest_resource.md) |
 | [**is_quest_inside**](#bool-is_quest_insidequest-quest)**(quest:** [Quest](/api/quest_resource.md)**)** | [bool](https://docs.godotengine.org/en/stable/classes/class_bool.html) |
 | [**get_ids_from_quests**](#arrayint-get_ids_from_quests)**()** | [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[int](https://docs.godotengine.org/en/stable/classes/class_int.html)]** |
+| [**get_all_quests()**]() | [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[Quest](/api/quest_resource.md)]** |
 | [**reset**](#void-reset)**()** | **void** |
 
 --------------
@@ -39,5 +40,7 @@ You need to pass a name to give to the pool in the constructor of the class.
 > Returns `true` if a given quest is inside the pool.
 #### _[Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[int](https://docs.godotengine.org/en/stable/classes/class_int.html)]**_ **get_ids_from_quests()**
 > Returns an Array that contains the ID of each quest inside the pool.
+#### _[Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[Quest](/api/quest_resource.md)]**_ **get_all_quests()**
+> Returns all the quest inside the pool.
 #### _**void**_ **reset()**
 > Resets the quest pool by clearing the [quests](#properties) array.
