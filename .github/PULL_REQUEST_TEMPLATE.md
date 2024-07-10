@@ -12,6 +12,7 @@ If this PR fixes an issue, please reference it.
 
 - [ ] This PR changes something in the code (e.g. for better performance).
     - [ ] If any code changes had taken place, I've tested them before committing.
+    - [ ] I've properly updated the documentation to reflect the changes I've made.
 - [ ] This PR adds something new.
 - [ ] This PR fixes an issue. <!-- Please reference the issue -->
 - [ ] This PR includes breaking changes.
