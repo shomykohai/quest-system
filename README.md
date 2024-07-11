@@ -28,7 +28,8 @@ Main pages:
 * [API](https://shomykohai.github.io/quest-system/#/api/)
 
 
-Additionally you can find a basic example project on the [quest-system-example](https://github.com/shomykohai/quest-system-example) repo.
+Additionally you can find a basic example project on the [quest-system-example](https://github.com/shomykohai/quest-system-example) repo,<br>
+and a more advanced project on the [advanced-quest-system-example](https://github.com/shomykohai/advanced-quest-system-example) (Note: This one integrates other addons with QuestSystem).
 
 ## License
 
