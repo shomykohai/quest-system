@@ -119,7 +119,13 @@ func add_quest(quest: Quest) -> Quest:
     super(quest) # Calls the parent add_quest()
 ```
 
-* And finally somewhere in our project we'll have to replace the QuestSystem default ActiveQuestPool with our overriden one and add the dropped quest one. 
+
+* And finally, we can override the default ActiveQuestPool in the ProjectSettings
+
+![ActiveQuestPool Override](..\..\assets\api\active_quest_pool_override.png)
+
+
+> NOTE: This can also be done through code:
 
 ```gdscript
 # some_script_that_runs_when_the_game_starts.gd
