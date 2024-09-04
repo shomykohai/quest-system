@@ -122,7 +122,7 @@ func add_quest(quest: Quest) -> Quest:
 
 * And finally, we can override the default ActiveQuestPool in the ProjectSettings
 
-![ActiveQuestPool Override](..\..\assets\api\active_quest_pool_override.png)
+![ActiveQuestPool Override](https://github.com/shomykohai/quest-system/blob/main/docs/assets/api/active_quest_pool_override.png?raw=true)
 
 
 > NOTE: This can also be done through code:
