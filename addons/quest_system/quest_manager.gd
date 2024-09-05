@@ -34,8 +34,7 @@ func _init() -> void:
 		var pool_name: String = pool_path.get_file().split(".")[0].to_pascal_case()
 		add_new_pool(pool_path, pool_name)
 
-# Quest API
-
+#region: Quest API
 
 func start_quest(quest: Quest, args: Dictionary = {}) -> Quest:
 	assert(quest != null)
@@ -147,19 +146,34 @@ func call_quest_method(quest_id: int, method: String, args: Array) -> void:
 
 
 func set_quest_property(quest_id: int, property: String, value: Variant) -> void:
-	var quest: Quest = null
-
+	
 	# Find the quest
-	for pools in get_all_pools():
-		if pools.get_quest_from_id(quest_id) != null:
-			quest = pools.get_quest_from_id(quest_id)
+	var quest: Quest = _get_quest_by_id(quest_id)
 
 	if quest == null: return
 
 	# Now check if the quest has the property
+	if not _quest_has_property(quest, property): return
 
-	# First if the property is null -> we return
-	if property == null: return
+	# Finally we set the value
+	quest.set(property, value)
+
+func get_quest_property(quest_id: int, property: String) -> Variant:
+	
+	# Find the quest
+	var quest: Quest = _get_quest_by_id(quest_id)
+
+	if quest == null: return null
+
+	# Now check if the quest has the property
+	if not _quest_has_property(quest, property): return null
+
+	# Finally we get the value
+	return quest.get(property)
+
+func _quest_has_property(quest: Quest, property: String) -> bool:
+	# If the property is null -> we return
+	if property == null: return false
 
 	var was_property_found: bool = false
 	# Then we check if the property is present
@@ -167,13 +181,20 @@ func set_quest_property(quest_id: int, property: String, value: Variant) -> void
 		if p.name == property:
 			was_property_found = true
 			break
+			
+	return was_property_found
 
-	# Return if the property was not found
-	if not was_property_found: return
+func _get_quest_by_id(quest_id: int) -> Quest:
+	var quest: Quest = null
 
-	# Finally we set the value
-	quest.set(property, value)
+	# Find the quest
+	for pools in get_all_pools():
+		if pools.get_quest_from_id(quest_id) != null:
+			quest = pools.get_quest_from_id(quest_id)
+			
+	return quest
 
+#endregion
 #region: Manager API
 
 func add_new_pool(pool_path: String, pool_name: String) -> void:

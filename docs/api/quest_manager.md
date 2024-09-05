@@ -28,6 +28,8 @@ It handles all the [quest pools] and also provide helpers to add more pools or m
 | [**is_quest_completed**](#bool-is_quest_completedquest-quest)**(quest:** [Quest](/api/quest_resource.md)**)** | [bool](https://docs.godotengine.org/en/stable/classes/class_bool.html) |
 | [**is_quest_in_pool**](#bool-is_quest_in_poolquest-quest-pool_name-string)**(quest:** [Quest](/api/quest_resource.md), **pool_name:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | [bool](https://docs.godotengine.org/en/stable/classes/class_bool.html) |
 | [**call_quest_method**](#void-call_quest_methodquest_id-int-method-string--args-array)**(quest_id:** [int](https://docs.godotengine.org/en/stable/classes/class_int.html), **method:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html),  **args:** [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**)** | **void** |
+| [**set_quest_property**](#void-set_quest_propertyquest_id-int-property-string--value-variant)**(quest_id:** [int](https://docs.godotengine.org/en/stable/classes/class_int.html), **property:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html),  **value:** [Variant](https://docs.godotengine.org/en/stable/classes/class_variant.html)**)** | **void** |
+| [**get_quest_property**](#void-get_quest_propertyquest_id-int-property-string)**(quest_id:** [int](https://docs.godotengine.org/en/stable/classes/class_int.html), **property:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | [Variant](https://docs.godotengine.org/en/stable/classes/class_variant.html) |
 | [**add_new_pool**](#void-add_new_poolpool_path-string-pool_name-string)**(pool_path:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html), **pool_name:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | **void** |
 | [**get_pool**]()**(pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | [BaseQuestPool](quest_pool/base_quest_pool.md) |
 | [**get_all_pools()**]() | [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[BaseQuestPool](quest_pool/base_quest_pool.md)]** |
@@ -36,7 +38,6 @@ It handles all the [quest pools] and also provide helpers to add more pools or m
 | [**dict_to_quests**](#void-dict_to_questsdict-dictionary-quests-arrayquest)**(dict:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html), **quests:** [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[Quest](/api/quest_resource.md)])** | **void** |
 | [**serialize_quests**](#dictionary-serialize_questspool-string)**(pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) |
 | [**deserialize_quests**](#dictionary-serialize_questspool-string)**(data:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html)**, pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html) = ""**)** | [Error](https://docs.godotengine.org/en/stable/classes/class_%40globalscope.html#enum-globalscope-error) |
-
 
 ### Signals
 | signal | description |
@@ -98,6 +99,18 @@ It handles all the [quest pools] and also provide helpers to add more pools or m
 > You can also provide additional arguments to the function.<br>
 > If the quest is not found, it won't do anything.
 > Internally the [`callv`](https://docs.godotengine.org/it/stable/classes/class_object.html#class-object-method-callv) function gets used
+
+#### _void_ **set_quest_property(quest_id:** [int](https://docs.godotengine.org/en/stable/classes/class_int.html), **property:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html),  **value:** [Variant](https://docs.godotengine.org/en/stable/classes/class_variant.html)**)**
+> Set any given property inside a specific quest without the need to have a direct reference to the Quest Resource.<br>
+> You will need to provide the ID of the quest, the property name and the new value.<br>
+> If the quest is not found, or the property name doesn't exist, it won't do anything.
+> Internally the [`set`](https://docs.godotengine.org/it/stable/classes/class_object.html#class-object-method-set) function gets used
+
+#### _[Variant](https://docs.godotengine.org/en/stable/classes/class_variant.html)_ **get_quest_property(quest_id:** [int](https://docs.godotengine.org/en/stable/classes/class_int.html), **property:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)**
+> Get any given property inside a specific quest without the need to have a direct reference to the Quest Resource.<br>
+> You will need to provide the ID of the quest and the property name<br>
+> If the quest is not found, or the property name doesn't exist, it won't do anything.
+> Internally the [`get`](https://docs.godotengine.org/it/stable/classes/class_object.html#class-object-method-get) function gets used
 
 #### _void_ **add_new_pool(pool_path:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html), **pool_name:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)**
 > Adds a custom quest pool.<br>
