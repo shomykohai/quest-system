@@ -97,10 +97,10 @@ func mark_quest_as_available(quest: Quest) -> void:
 
 
 func get_available_quests() -> Array[Quest]:
-	return available.quests
+	return available.get_all_quests()
 
 func get_active_quests() -> Array[Quest]:
-	return active.quests
+	return active.get_all_quests()
 
 
 func is_quest_available(quest: Quest) -> bool:
