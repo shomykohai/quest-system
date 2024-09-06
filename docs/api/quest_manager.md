@@ -29,11 +29,12 @@ It handles all the [quest pools] and also provide helpers to add more pools or m
 | [**is_quest_in_pool**](#bool-is_quest_in_poolquest-quest-pool_name-string)**(quest:** [Quest](/api/quest_resource.md), **pool_name:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | [bool](https://docs.godotengine.org/en/stable/classes/class_bool.html) |
 | [**call_quest_method**](#void-call_quest_methodquest_id-int-method-string--args-array)**(quest_id:** [int](https://docs.godotengine.org/en/stable/classes/class_int.html), **method:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html),  **args:** [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**)** | **void** |
 | [**set_quest_property**](#void-set_quest_propertyquest_id-int-property-string--value-variant)**(quest_id:** [int](https://docs.godotengine.org/en/stable/classes/class_int.html), **property:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html),  **value:** [Variant](https://docs.godotengine.org/en/stable/classes/class_variant.html)**)** | **void** |
-| [**get_quest_property**](#void-get_quest_propertyquest_id-int-property-string)**(quest_id:** [int](https://docs.godotengine.org/en/stable/classes/class_int.html), **property:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | [Variant](https://docs.godotengine.org/en/stable/classes/class_variant.html) |
+| [**get_quest_property**](#variant-get_quest_propertyquest_id-int-property-string)**(quest_id:** [int](https://docs.godotengine.org/en/stable/classes/class_int.html), **property:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | [Variant](https://docs.godotengine.org/en/stable/classes/class_variant.html) |
 | [**add_new_pool**](#void-add_new_poolpool_path-string-pool_name-string)**(pool_path:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html), **pool_name:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | **void** |
 | [**get_pool**]()**(pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | [BaseQuestPool](quest_pool/base_quest_pool.md) |
 | [**get_all_pools()**]() | [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[BaseQuestPool](quest_pool/base_quest_pool.md)]** |
 | [**move_quest_to_pool**](#quest-move_quest_to_poolquest-quest-old_pool-string-new_pool-string)**(quest:** [Quest](/api/quest_resource.md), **old_pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html), **new_pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | [Quest](/api/quest_resource.md) |
+| [**reset_pool**]()**()** | **void** |
 | [**quests_as_dict**](#dictionary-quests_as_dict)**()** | [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) |
 | [**dict_to_quests**](#void-dict_to_questsdict-dictionary-quests-arrayquest)**(dict:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html), **quests:** [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[Quest](/api/quest_resource.md)])** | **void** |
 | [**serialize_quests**](#dictionary-serialize_questspool-string)**(pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) |
@@ -125,6 +126,9 @@ It handles all the [quest pools] and also provide helpers to add more pools or m
 
 #### _[Quest](/api/quest_resource.md)_ **move_quest_to_pool(quest:** [Quest](/api/quest_resource.md), **old_pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html), **new_pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)**
 > Forcefully move a quest from a pool to another
+
+#### _void_ **reset_pool(pool_name:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html) = ""**)**
+> Resets all pools if `pool_name` is not given, or resets the specified pool.
 
 #### _[Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html)_ **quests_as_dict()**
 > Returns a dictionary with all the quest pools and their respectively quests referenced by their id.

@@ -104,7 +104,7 @@ func get_active_quests() -> Array[Quest]:
 
 
 func is_quest_available(quest: Quest) -> bool:
-	if not (active.is_quest_inside(quest) or completed.is_quest_inside(quest)):
+	if available.is_quest_inside(quest):
 		return true
 	return false
 
@@ -130,13 +130,8 @@ func is_quest_in_pool(quest: Quest, pool_name: String) -> bool:
 
 
 func call_quest_method(quest_id: int, method: String, args: Array) -> void:
-	var quest: Quest = null
-
 	# Find the quest if present
-	for pools in get_children():
-		if pools.get_quest_from_id(quest_id) != null:
-			quest = pools.get_quest_from_id(quest_id)
-			break
+	var quest: Quest = _get_quest_by_id(quest_id)
 
 	# Make sure we've got the quest
 	if quest == null: return
@@ -146,7 +141,6 @@ func call_quest_method(quest_id: int, method: String, args: Array) -> void:
 
 
 func set_quest_property(quest_id: int, property: String, value: Variant) -> void:
-
 	# Find the quest
 	var quest: Quest = _get_quest_by_id(quest_id)
 
@@ -159,7 +153,6 @@ func set_quest_property(quest_id: int, property: String, value: Variant) -> void
 	quest.set(property, value)
 
 func get_quest_property(quest_id: int, property: String) -> Variant:
-
 	# Find the quest
 	var quest: Quest = _get_quest_by_id(quest_id)
 
@@ -191,6 +184,7 @@ func _get_quest_by_id(quest_id: int) -> Quest:
 	for pools in get_all_pools():
 		if pools.get_quest_from_id(quest_id) != null:
 			quest = pools.get_quest_from_id(quest_id)
+			break
 
 	return quest
 
@@ -237,7 +231,7 @@ func move_quest_to_pool(quest: Quest, old_pool: String, new_pool: String) -> Que
 	return quest
 
 
-func reset_pool(pool_name: String) -> void:
+func reset_pool(pool_name: String = "") -> void:
 	if pool_name.is_empty():
 		for pool in get_children():
 			pool.reset()
