@@ -146,7 +146,7 @@ func call_quest_method(quest_id: int, method: String, args: Array) -> void:
 
 
 func set_quest_property(quest_id: int, property: String, value: Variant) -> void:
-	
+
 	# Find the quest
 	var quest: Quest = _get_quest_by_id(quest_id)
 
@@ -159,7 +159,7 @@ func set_quest_property(quest_id: int, property: String, value: Variant) -> void
 	quest.set(property, value)
 
 func get_quest_property(quest_id: int, property: String) -> Variant:
-	
+
 	# Find the quest
 	var quest: Quest = _get_quest_by_id(quest_id)
 
@@ -181,7 +181,7 @@ func _quest_has_property(quest: Quest, property: String) -> bool:
 		if p.name == property:
 			was_property_found = true
 			break
-			
+
 	return was_property_found
 
 func _get_quest_by_id(quest_id: int) -> Quest:
@@ -191,7 +191,7 @@ func _get_quest_by_id(quest_id: int) -> Quest:
 	for pools in get_all_pools():
 		if pools.get_quest_from_id(quest_id) != null:
 			quest = pools.get_quest_from_id(quest_id)
-			
+
 	return quest
 
 #endregion

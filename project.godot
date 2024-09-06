@@ -23,4 +23,8 @@ Gamestate="*res://test/gamestate.gd"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/quest_system/plugin.cfg")
+enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg", "res://addons/quest_system/plugin.cfg")
+
+[gdunit4]
+
+settings/test/test_lookup_folder="tests/"
