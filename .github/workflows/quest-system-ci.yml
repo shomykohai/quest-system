@@ -1,0 +1,70 @@
+name: quest-system-ci
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.jpg'
+      - '**.png'
+      - '**.md'
+      - '**.svg'
+      - "**plugin.cfg"
+    pull_request:
+      - '**.jpg'
+      - '**.png'
+      - '**.md'
+      - '**.svg'
+      - "**plugin.cfg"
+    workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      checks: write
+      pull-requests: write
+      statuses: write
+
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        godot-version: ['4.3', '4.2.2', '4.1.4']
+        godot-status: ['stable']
+    
+    name: "🧪 CI on Godot ${{ matrix.godot-version }}"
+    steps:
+      - name: "📦 Checkout repository"
+        uses: actions/checkout@v4
+      
+      - name: "🧪 Run unit tests"
+        uses: MikeSchulze/gdUnit4-action@v1.1.1
+        with:
+          godot-version: ${{ matrix.godot-version }}
+          godot-status: ${{ matrix.godot-status }}
+          paths: "res://tests"
+          version: "installed"
+          publish-report: false
+          report-name: unit_tests_report_Godot${{ matrix.godot-version }}
+          timeout: 3
+
+  finalize:
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    name: '🧪 Final Results'
+    needs: [unit-tests]
+    steps:
+      - run: exit 1
+        if: >-
+          ${{
+               contains(needs.*.result, 'failure')
+            || contains(needs.*.result, 'cancelled')
+          }}
+
