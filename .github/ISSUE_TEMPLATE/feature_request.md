@@ -3,7 +3,7 @@ name: Feature Request
 about: Suggest a feature.
 title: ""
 labels: enhancement
-assignees: ShomyKohai
+assignees: shomykohai
 ---
 
 # Describe the feature

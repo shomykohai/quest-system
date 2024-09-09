@@ -4,7 +4,7 @@
 ### 📋 Steps
 
 * **From GitHub**
-1. Download the latest release from [here](https://github.com/ShomyKohai/quest-system/releases/latest).
+1. Download the latest release from [here](https://github.com/shomykohai/quest-system/releases/latest).
 2. Extract the quest_system folder from the downloaded zip into your addons folder.
 3. Activate the addon in the project settings.
 
