@@ -12,6 +12,14 @@
 QuestSystem is a simple addon for [Godot 4](https://godotengine.org/) that simplifies the creation of custom quests.
 
 
+## Features
+
+* ✨ Easy to use API
+* 🛠️ Support for custom quests
+* 🌐 Support for CSV and POT localisation
+* 🗃️ Easy serialization & deserialization
+* 🧪 Tested API with [GDUnit4](https://github.com/MikeSchulze/gdUnit4)
+
 ## Installing
 
 1. Download a [copy](https://codeload.github.com/shomykohai/quest-system/zip/refs/heads/main) of the addon
@@ -27,6 +35,7 @@ Main pages:
 * [Localisation](https://shomykohai.github.io/quest-system/#/translations)
 * [API](https://shomykohai.github.io/quest-system/#/api/)
 
+## Examples
 
 Additionally you can find a basic example project on the [quest-system-example](https://github.com/shomykohai/quest-system-example) repo,<br>
 and a more advanced project on the [advanced-quest-system-example](https://github.com/shomykohai/advanced-quest-system-example) (Note: This one integrates other addons with QuestSystem).
@@ -34,3 +43,4 @@ and a more advanced project on the [advanced-quest-system-example](https://githu
 ## License
 
 This project is under the MIT license, see [LICENSE](LICENSE)
+
