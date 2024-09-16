@@ -129,7 +129,7 @@ func is_quest_completed(quest: Quest) -> bool:
 
 func is_quest_in_pool(quest: Quest, pool_name: String) -> bool:
 	if pool_name.is_empty():
-		for pool in get_children():
+		for pool in get_all_pools():
 			if pool.is_quest_inside(quest): return true
 		return false
 
