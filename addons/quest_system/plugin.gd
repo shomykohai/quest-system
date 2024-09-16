@@ -26,6 +26,9 @@ func _enter_tree() -> void:
 func _exit_tree() -> void:
 	remove_autoload_singleton("QuestSystem")
 	remove_translation_parser_plugin(translation_plugin)
+	# Ensure the update button is freed
+	if update_button:
+		update_button.queue_free()
 	translation_plugin = null
 
 func _version_to_int(ver: String) -> int:

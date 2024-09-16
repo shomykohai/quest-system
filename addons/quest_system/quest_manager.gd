@@ -18,12 +18,15 @@ func _init() -> void:
 	# Ovverride default pools if specified in project settings.
 	if available.get_script().resource_path != QuestSystemSettings.get_config_setting("available_quest_pool_path", available.get_script().resource_path):
 		var pool := load(QuestSystemSettings.get_config_setting("available_quest_pool_path"))
+		available.queue_free()
 		available = pool.new("Available")
 	if active.get_script().resource_path != QuestSystemSettings.get_config_setting("active_quest_pool_path", active.get_script().resource_path):
 		var pool := load(QuestSystemSettings.get_config_setting("active_quest_pool_path"))
+		active.queue_free()
 		active = pool.new("Active")
 	if completed.get_script().resource_path != QuestSystemSettings.get_config_setting("completed_quest_pool_path", completed.get_script().resource_path):
 		var pool := load(QuestSystemSettings.get_config_setting("completed_quest_pool_path"))
+		completed.queue_free()
 		completed = pool.new("Completed")
 
 	add_child(available)
@@ -33,6 +36,12 @@ func _init() -> void:
 	for pool_path in ProjectSettings.get_setting("quest_system/config/additional_pools", []):
 		var pool_name: String = pool_path.get_file().split(".")[0].to_pascal_case()
 		add_new_pool(pool_path, pool_name)
+
+
+func _exit_tree() -> void:
+	for pool in get_all_pools():
+		pool.reset()
+		pool.queue_free()
 
 #region: Quest API
 
