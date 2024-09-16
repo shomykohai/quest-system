@@ -214,6 +214,12 @@ func add_new_pool(pool_path: String, pool_name: String) -> void:
 	add_child(pool_instance)
 
 
+func remove_pool(pool_name: String) -> void:
+	var pool := get_pool(pool_name)
+	if pool != null:
+		pool.queue_free()
+
+
 func get_pool(pool: String) -> BaseQuestPool:
 	return get_node_or_null(pool)
 
