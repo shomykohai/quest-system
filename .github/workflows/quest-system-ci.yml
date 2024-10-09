@@ -10,13 +10,14 @@ on:
       - '**.md'
       - '**.svg'
       - "**plugin.cfg"
-    pull_request:
+  pull_request:
+    paths-ignore:
       - '**.jpg'
       - '**.png'
       - '**.md'
       - '**.svg'
       - "**plugin.cfg"
-    workflow_dispatch:
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
