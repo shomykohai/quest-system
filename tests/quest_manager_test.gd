@@ -104,12 +104,18 @@ func test_get_quest_property() -> void:
 #region: Manager API
 
 func test_add_new_pool() -> void:
-	QuestSystem.add_new_pool(base_pool_path, "TestPool")
-	var new_pool: BaseQuestPool = QuestSystem.get_pool("TestPool")
+	QuestSystem.add_new_pool(base_pool_path, &"NewPool")
+	var new_pool: BaseQuestPool = QuestSystem.get_pool(&"NewPool")
 	assert_array(QuestSystem.get_all_pools()).contains([new_pool])
-	new_pool.queue_free()
-	await new_pool.tree_exited
+	QuestSystem.remove_pool(&"NewPool")
 
+func test_remove_pool() -> void:
+	QuestSystem.add_new_pool(base_pool_path, &"NewPool")
+	var new_pool: BaseQuestPool = QuestSystem.get_pool(&"NewPool")
+	assert_array(QuestSystem.get_all_pools()).contains([new_pool])
+	QuestSystem.remove_pool(&"NewPool")
+	await get_tree().process_frame # Wait a frame for queue_free to take action
+	assert_array(QuestSystem.get_all_pools()).not_contains([new_pool])
 
 func test_get_pool() -> void:
 	assert_object(QuestSystem.get_pool("Active")).is_not_null()
