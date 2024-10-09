@@ -30,7 +30,7 @@ signal objective_status_updated(value: bool)
 var objective_completed: bool = false:
 	set(value):
 		objective_completed = value
-        objective_status_updated.emit(value)
+		objective_status_updated.emit(value)
 	get:
 		return objective_completed
 
