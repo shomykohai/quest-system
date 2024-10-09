@@ -207,11 +207,11 @@ func add_new_pool(pool_path: String, pool_name: String) -> void:
 	var pool_instance = pool.new(pool_name)
 
 	# Make sure the pool does not exist yet
-	for pools in get_children():
-		if pool_instance.get_script() == pools.get_script():
+	for pools in get_all_pools():
+		if pool_instance.get_script() == pools.get_script() && pool_name != pools.name:
 			return
 
-	add_child(pool_instance)
+	add_child(pool_instance, true)
 
 
 func remove_pool(pool_name: String) -> void:
