@@ -9,14 +9,14 @@ on:
       - '**.png'
       - '**.md'
       - '**.svg'
-      - "**plugin.cfg"
+      - '**plugin.cfg'
   pull_request:
     paths-ignore:
       - '**.jpg'
       - '**.png'
       - '**.md'
       - '**.svg'
-      - "**plugin.cfg"
+      - '**plugin.cfg'
   workflow_dispatch:
 
 concurrency:
