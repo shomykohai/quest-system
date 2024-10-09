@@ -22,6 +22,8 @@ func before_test() -> void:
 	pool.reset()
 	pool.add_quest(_quest)
 
+func after() -> void:
+	QuestSystem.remove_pool(&"TestPool")
 
 func test_add_quest() -> void:
 	assert_bool(QuestSystem.is_quest_in_pool(_quest, &"TestPool")).is_true()
