@@ -16,11 +16,12 @@ To make a custom quest make a script that inherits `Quest` and implement your ow
 
 | Name           | Type        | Description |
 | ---------------| ------------| ------------|
-| `id`           | [int](https://docs.godotengine.org/en/stable/classes/class_int.html) | Unique Identifier for a quest |
-| `quest_name`   | [String](https://docs.godotengine.org/en/stable/classes/class_string.html) | The name of a quest |
-| `quest_description` | [String](https://docs.godotengine.org/en/stable/classes/class_string.html) | Description of the quest |
-| `quest_objective` | [String](https://docs.godotengine.org/en/stable/classes/class_string.html) | Description of the objective of the quest |
-| `objective_completed` **_= false_** | [bool](https://docs.godotengine.org/en/stable/classes/class_bool.html) | Tracks the progress of the quest.<br>If it's false, the quest can't be moved to the CompletedPool |
+| `id`           | [int](https://docs.godotengine.org/en/stable/classes/class_int.html) | Unique Identifier for a quest. |
+| `quest_name`   | [String](https://docs.godotengine.org/en/stable/classes/class_string.html) | The name of a quest. |
+| `quest_description` | [String](https://docs.godotengine.org/en/stable/classes/class_string.html) | Description of the quest. |
+| `quest_objective` | [String](https://docs.godotengine.org/en/stable/classes/class_string.html) | Description of the objective of the quest. |
+| `objective_completed` **_= false_** | [bool](https://docs.godotengine.org/en/stable/classes/class_bool.html) | Tracks the progress of the quest.<br>If it's false, the quest can't be moved to the CompletedPool.
+<br>When set, it will emit the objective_status_updated(value: bool) signal to indicate a change in the objective completion state. |
 
 ### Methods
 
@@ -54,6 +55,7 @@ To make a custom quest make a script that inherits `Quest` and implement your ow
 | started() | Emitted when the `start()` method is invoked |
 | updated() | Emitted when the `update()` method is invoked |
 | completed() | Emitted when the `complete()` method is invoked |
+| objective_status_updated(value: bool) | Emitted when the `objective_completed` bool value is set |
 
 In order to have these called in your own resources that extend `Quest`, remember to call `super.update()` in your `update` implementation, `super.start()` in your `start` implementation and `super.complete()` in your `complete` implementation.
 

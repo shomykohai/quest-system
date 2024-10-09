@@ -21,6 +21,8 @@ signal started
 signal updated
 ## Emitted by default when [method complete] gets called.
 signal completed
+## Emitted by default when [objective_completed] gets set.
+signal objective_status_updated(value: bool)
 
 ## Whether the objective is fulfilled or not.[br]
 ## Must be set to true to be able to complete the quest;[br]
@@ -28,6 +30,7 @@ signal completed
 var objective_completed: bool = false:
 	set(value):
 		objective_completed = value
+        objective_status_updated.emit(value)
 	get:
 		return objective_completed
 
