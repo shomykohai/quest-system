@@ -9,7 +9,6 @@ const __source = 'res://addons/quest_system/quest_manager.gd'
 const base_pool_path = "res://addons/quest_system/base_quest_pool.gd"
 
 var _quest: Quest = Quest.new()
-var signal_received: bool = false
 
 func before() -> void:
 	_quest.id = 1
@@ -18,7 +17,6 @@ func before() -> void:
 	_quest.quest_objective = "Run the tests without errors"
 
 func before_test() -> void:
-	signal_received = false
 	## Remove the quest from every pool before each test
 	QuestSystem.reset_pool("")
 
@@ -54,7 +52,6 @@ func test_get_available_quests() -> void:
 	assert_array(QuestSystem.get_available_quests()).is_equal([_quest])
 
 func test_get_active_quests() -> void:
-	#QuestSystem.reset_pool(&"Active")
 	QuestSystem.start_quest(_quest)
 	assert_array(QuestSystem.get_active_quests()).is_equal([_quest])
 
@@ -81,10 +78,8 @@ func test_is_quest_in_pool() -> void:
 
 func test_call_quest_method() -> void:
 	QuestSystem.start_quest(_quest)
-	_quest.updated.connect(_receive_signal)
 	QuestSystem.call_quest_method(_quest.id, &"update", [])
-	_quest.updated.disconnect(_receive_signal)
-	assert_bool(signal_received).is_true()
+	assert_signal(_quest).is_emitted(&"updated")
 
 func test_set_quest_property() -> void:
 	QuestSystem.start_quest(_quest)
@@ -196,5 +191,3 @@ func test_deserialize_quests() -> void:
 	assert_dict(QuestSystem.serialize_quests()).is_equal(expected_dict)
 
 #endregion
-func _receive_signal() -> void:
-	signal_received = true

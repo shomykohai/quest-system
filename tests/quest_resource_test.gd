@@ -8,7 +8,6 @@ extends GdUnitTestSuite
 const __source = 'res://addons/quest_system/quest_resource.gd'
 
 var _quest: Quest = Quest.new()
-var signal_received: bool = false
 
 func before() -> void:
 	_quest.id = 1
@@ -16,26 +15,23 @@ func before() -> void:
 	_quest.quest_description = "This is a Test quest."
 	_quest.quest_objective = "Run the tests without errors"
 
-func before_test() -> void:
-	signal_received = false
-
 func test_update() -> void:
-	_quest.updated.connect(_receive_signal)
 	_quest.update()
-	_quest.updated.disconnect(_receive_signal)
-	assert_bool(signal_received).is_true()
+	assert_signal(_quest).is_emitted(&"updated")
 
 func test_complete() -> void:
-	_quest.completed.connect(_receive_signal)
 	_quest.complete()
-	_quest.completed.disconnect(_receive_signal)
-	assert_bool(signal_received).is_true()
+	assert_signal(_quest).is_emitted(&"completed")
 
 func test_start() -> void:
-	_quest.started.connect(_receive_signal)
 	_quest.start()
-	_quest.started.disconnect(_receive_signal)
-	assert_bool(signal_received).is_true()
+	assert_signal(_quest).is_emitted(&"started")
+
+func test_objective_status_updated_signal() -> void:
+	_quest.objective_completed = true
+	assert_signal(_quest).is_emitted(&"objective_status_updated")
+	_quest.objective_completed = false
+	assert_signal(_quest).is_emitted(&"objective_status_updated")
 
 func test_serialize() -> void:
 	var expected_dict: Dictionary = {
@@ -55,6 +51,3 @@ func test_deserialize() -> void:
 		}
 	_quest.deserialize(expected_dict)
 	assert_dict(_quest.serialize()).is_equal(expected_dict)
-
-func _receive_signal() -> void:
-	signal_received = true
