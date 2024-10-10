@@ -20,8 +20,7 @@ To make a custom quest make a script that inherits `Quest` and implement your ow
 | `quest_name`   | [String](https://docs.godotengine.org/en/stable/classes/class_string.html) | The name of a quest. |
 | `quest_description` | [String](https://docs.godotengine.org/en/stable/classes/class_string.html) | Description of the quest. |
 | `quest_objective` | [String](https://docs.godotengine.org/en/stable/classes/class_string.html) | Description of the objective of the quest. |
-| `objective_completed` **_= false_** | [bool](https://docs.godotengine.org/en/stable/classes/class_bool.html) | Tracks the progress of the quest.<br>If it's false, the quest can't be moved to the CompletedPool.
-<br>When set, it will emit the objective_status_updated(value: bool) signal to indicate a change in the objective completion state. |
+| `objective_completed` **_= false_** | [bool](https://docs.godotengine.org/en/stable/classes/class_bool.html) | Tracks the progress of the quest.<br>If it's false, the quest can't be moved to the CompletedPool.<br><br>When set, it will emit the objective_status_updated(value: bool) signal to indicate a change in the objective completion state. |
 
 ### Methods
 
