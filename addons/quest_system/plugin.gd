@@ -10,7 +10,23 @@ var translation_plugin: QuestPropertyTranslationPlugin
 
 func _enter_tree() -> void:
 	QuestSystemSettings.initialize(_get_plugin_path())
-	add_autoload_singleton("QuestSystem", "quest_manager.gd")
+
+	# Override default autoload script path
+	var autoload_path: String = QuestSystemSettings.get_config_setting("autoload_script_path", "quest_manager.gd")
+	if autoload_path != "quest_manager.gd" and autoload_path != _get_plugin_path() + "/quest_manager.gd":
+		if ResourceLoader.exists(autoload_path):
+			var autoload = load(autoload_path).new()
+			if autoload == null or not autoload is QuestSystemManagerAPI:
+				print_rich("[color=red][!][/color] [b]Cannot override default autoload script!\n[color=red]The script is not valid.[/color]\nUsing default script. Check QuestSystem settings.[/b]")
+				autoload_path = "quest_manager.gd"
+			autoload.queue_free()
+		else:
+			print_rich("[color=red][!][/color] [b]Cannot override default autoload script!\n[color=red]The script does not exist.[/color]\nUsing default script. Check QuestSystem settings.[/b]")
+			autoload_path = "quest_manager.gd"
+
+	add_autoload_singleton("QuestSystem", autoload_path)
+
+	# Handle editor stuff
 	if Engine.is_editor_hint():
 		translation_plugin = QuestPropertyTranslationPlugin.new()
 		add_translation_parser_plugin(translation_plugin)

@@ -10,6 +10,10 @@ static func initialize(plugin_path: StringName) -> void:
 	_init_setting(
 		CONFIG_CATEGORY + "/check_for_updates_on_startup",
 		true, TYPE_BOOL)
+	_init_setting(
+		CONFIG_CATEGORY + "/autoload_script_path",
+		"%s/quest_manager.gd" % plugin_path,
+		TYPE_STRING, PROPERTY_HINT_FILE)
 
 	# Pools
 	_init_setting(
