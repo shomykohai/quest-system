@@ -33,6 +33,10 @@ static func initialize(plugin_path: StringName) -> void:
 	_init_setting(
 		CONFIG_CATEGORY + "/require_objective_completed",
 		true, TYPE_BOOL)
+	_init_setting(
+		CONFIG_CATEGORY + "/allow_repeating_completed_quests",
+		false, TYPE_BOOL
+	)
 
 
 

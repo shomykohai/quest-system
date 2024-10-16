@@ -50,7 +50,7 @@ func start_quest(quest: Quest, args: Dictionary = {}) -> Quest:
 
 	if active.is_quest_inside(quest):
 		return quest
-	if completed.is_quest_inside(quest): #Throw an error?
+	if completed.is_quest_inside(quest) or QuestSystemSettings.get_config_setting("allow_repeating_completed_quests", false):
 		return quest
 
 	#Add the quest to the actives quests

@@ -14,6 +14,8 @@ config/name="Quest System"
 config/tags=PackedStringArray("addons")
 run/main_scene="res://test/test.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
+boot_splash/image="res://icon.png"
+boot_splash/fullsize=false
 config/icon="res://icon.svg"
 
 [autoload]
