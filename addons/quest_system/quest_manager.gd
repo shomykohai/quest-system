@@ -1,4 +1,5 @@
 extends Node
+class_name QuestSystemManagerAPI
 
 signal quest_accepted(quest: Quest) # Emitted when a quest gets moved to the ActivePool
 signal quest_completed(quest: Quest) # Emitted when a quest gets moved to the CompletedPool
