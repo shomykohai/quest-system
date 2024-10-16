@@ -3,7 +3,8 @@
 ### Description
 
 The `QuestSystem` class is the main entrypoint to the Quest API.<br>
-It handles all the [quest pools] and also provide helpers to add more pools or manage your quests resources.<br>
+It handles all the quest pools and also provide helpers to add more pools or manage your quests resources.<br><br>
+For more advanced use, you can subclass `QuestSystemManagerAPI` and set the new script in `ProjectSettings -> QuestSystem -> Autoload Script Path` to edit or add new methods and signals to the `QuestSystem` autoload. 
 
 ### Properties
 
