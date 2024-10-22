@@ -1,4 +1,10 @@
 :root {
+    @media (prefers-color-scheme: light) {
+        --base-background-color: #e3ecf3;
+        --sidebar-background: #e3ecf3;
+        --search-background: #e3ecf3;
+    }
+
     /* APP */
     --base-background-color: #1b1e24;
 
