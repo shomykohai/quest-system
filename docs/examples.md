@@ -1,4 +1,4 @@
-## Examples projects
+## Example projects
 
 QuestSystem approach to make quests is mostly code based, but that won't stop anyone to extends the addon capabilities.
 
