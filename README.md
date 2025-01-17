@@ -42,7 +42,7 @@ and a more advanced project on the [advanced-quest-system-example](https://githu
 
 ## Video guides
 
-* [How to create a quest with Quest System and Pandora | Arkaruh's Tale](https://youtu.be/bc_lB8LNup0)
+* [How to create a quest with Quest System and Pandora | Arkaruh's Tale](https://youtu.be/bc_lB8LNup0) by Trobugno
 
 <a href="https://youtu.be/bc_lB8LNup0"><img src="docs/assets/videos/trobugno_qs_pndr.jpg" width=512></a>
 
