@@ -40,6 +40,11 @@ Main pages:
 Additionally you can find a basic example project on the [quest-system-example](https://github.com/shomykohai/quest-system-example) repo,<br>
 and a more advanced project on the [advanced-quest-system-example](https://github.com/shomykohai/advanced-quest-system-example) (Note: This one integrates other addons with QuestSystem).
 
+## Video guides
+
+* How to create a quest with Quest System and Pandora | Arkaruh's Tale
+<img src="docs/assets/videos/trobugno_qs_pndr.jpg" width=512>
+
 ## License
 
 This project is under the MIT license, see [LICENSE](LICENSE)
