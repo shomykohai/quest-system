@@ -78,3 +78,7 @@ func serialize() -> Dictionary:
 func deserialize(data: Dictionary) -> void:
 	for key in data.keys():
 		set(key, data[key])
+
+
+func _to_string() -> String:
+	return "<Quest id=" + str(id) + " name=\"" + quest_name + "\">"
