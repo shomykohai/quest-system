@@ -74,22 +74,28 @@ func _http_request_completed(result: int, response_code: int, headers: PackedStr
 			break
 
 	update_button = Button.new()
-	update_button.add_theme_color_override("font_color", Color.LIME_GREEN)
+	update_button.add_theme_color_override("font_color", Color.ORANGE)
 	update_button.text = data["tag_name"]
 	update_button.icon = _get_plugin_icon()
-	update_button.pressed.connect(_on_update_button_pressed.bind(get_plugin_version(), data["tag_name"]))
+	update_button.pressed.connect(_on_update_button_pressed.bind(get_plugin_version(), data["tag_name"], data["body"]))
 	title_bar.add_child(update_button)
 	title_bar.move_child(update_button, title_bar.get_child_count(true) - 3)
 
-func _on_update_button_pressed(old_ver: String, new_ver: String) -> void:
+func _on_update_button_pressed(old_ver: String, new_ver: String, release_notes: String) -> void:
 	var update_panel: AcceptDialog = load(_get_plugin_path()+"/views/update_dialog.tscn").instantiate()
 	update_panel.set_meta("old_ver", old_ver)
 	update_panel.set_meta("new_ver", new_ver)
 	update_panel.set_meta("plugin_path", _get_plugin_path())
+	update_panel.set_meta("release_notes", release_notes)
 	update_button.add_child(update_panel)
 	update_panel.popup_centered()
 	update_panel.prepare()
 	await update_panel.updated
+	if update_panel.update_status == "" or update_panel.update_status == "failed":
+		print_rich("[color=red][!][/color] [b]Update failed![/b]\n[color=red]Please check the console for more information.[/color]")
+		update_panel.queue_free()
+		return
+
 	update_panel.queue_free()
 	update_button.queue_free()
 	EditorInterface.get_resource_filesystem().scan()

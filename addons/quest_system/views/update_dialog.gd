@@ -2,6 +2,7 @@
 extends AcceptDialog
 
 signal updated
+signal failed
 
 const DOWNLOAD_URL: String = "https://github.com/shomykohai/quest-system/archive/refs/tags/%s.zip"
 const TEMP_FILE_PATH: String = "user://quest_system_temp.zip"
@@ -9,6 +10,9 @@ const TEMP_FILE_PATH: String = "user://quest_system_temp.zip"
 @onready var version_label: RichTextLabel = %VersionLabel
 @onready var download_button: Button = %DownloadButton
 @onready var http_request: HTTPRequest = %HTTPRequest
+@onready var release_notes: TextEdit = %ReleaseNotes
+
+var update_status: String = ""
 
 var new_ver: String = ""
 var old_ver: String = ""
@@ -19,6 +23,7 @@ func prepare() -> void:
 	new_ver = get_meta("new_ver")
 	old_ver = get_meta("old_ver")
 	plugin_path = get_meta("plugin_path")
+	release_notes.text = get_meta("release_notes")
 	version_label.text = version_label.text % [new_ver, old_ver]
 	%LinkButton.uri = "https://github.com/shomykohai/quest-system/releases/tag/%s" % new_ver
 	title = new_ver
@@ -40,6 +45,8 @@ func _on_http_request_request_completed(result, response_code, headers, body):
 	if result != HTTPRequest.RESULT_SUCCESS:
 		download_button.text = "Download failed. Try again later."
 		download_button.disabled = false
+		update_status = "failed"
+		updated.emit()
 		return
 
 	_save_zip(body)
@@ -68,6 +75,7 @@ func _on_http_request_request_completed(result, response_code, headers, body):
 	zip.close()
 	DirAccess.remove_absolute(TEMP_FILE_PATH)
 
+	update_status = "updated"
 	updated.emit()
 
 	download_button.text = "Updated!"
