@@ -249,7 +249,7 @@ func move_quest_to_pool(quest: Quest, old_pool: String, new_pool: String) -> Que
 
 func reset_pool(pool_name: String = "") -> void:
 	if pool_name.is_empty():
-		for pool in get_children():
+		for pool in get_all_pools():
 			pool.reset()
 		return
 
@@ -268,7 +268,7 @@ func quests_as_dict() -> Dictionary:
 
 
 func dict_to_quests(dict: Dictionary, quests: Array[Quest]) -> void:
-	for pool in get_children():
+	for pool in get_all_pools():
 
 		# Make sure to iterate only for available pools
 		if !dict.has(pool.name.to_lower()): continue
