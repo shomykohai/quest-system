@@ -4,7 +4,7 @@
 </h1>
 
 [![Awesome](https://awesome.re/badge.svg)](https://github.com/godotengine/awesome-godot)
-[![TwitterShomy](https://img.shields.io/badge/-shomykohai-1DA1F2?style=flat&logo=twitter&logoColor=white&labelColor=1DA1F2)](https://twitter.com/shomykohai)
+[![BSkyShomy](https://img.shields.io/badge/-shomy-1185FE?style=flat&logo=bluesky&logoColor=white&labelColor=1185FE)](https://shomy.bsky.social)
 [![GodotEngine](https://img.shields.io/badge/-Godot%204-250a78?style=flat&logo=godotengine&logoColor=white&labelColor=250a78)](https://godotengine.org/)
 
 # QuestSystem for Godot 4
