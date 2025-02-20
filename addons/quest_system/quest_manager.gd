@@ -276,7 +276,14 @@ func dict_to_quests(dict: Dictionary, quests: Array[Quest]) -> void:
 		# Match quest with their ids and insert them into the quest pool
 		var quest_with_id: Dictionary = {}
 		var pool_ids: Array[int]
-		pool_ids.append_array(dict[pool.name.to_lower()])
+		
+		# This ensure type safety is respected, especially when parsing with JSON,
+		# which automatically parses numbers as floats
+		# See issue #31
+		var tmp_quest_array: Array[int]
+		tmp_quest_array.assign(dict[pool.name.to_lower()])
+		
+		pool_ids.append_array(tmp_quest_array)
 		for quest in quests:
 			if quest.id in pool_ids:
 				pool.add_quest(quest)
