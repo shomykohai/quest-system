@@ -9,13 +9,15 @@
 
 # QuestSystem for Godot 4
 
-QuestSystem is a simple addon for [Godot 4](https://godotengine.org/) that simplifies the creation of custom quests.
+QuestSystem is a minimal, powerful and modular addon for [Godot 4](https://godotengine.org/) that simplifies the creation of custom quest, with an easy to use API, resource based quests and completely compatible with other addons with its modularity.
 
 
 ## Features
 
 * ✨ Easy to use API
 * 🛠️ Support for custom quests
+* 🗃 Completely modular and customizable singleton
+* ⚖️ Fully typed API for type safety
 * 🌐 Support for CSV and POT localisation
 * 🗃️ Easy serialization & deserialization
 * 🧪 Tested API with [GDUnit4](https://github.com/MikeSchulze/gdUnit4)
