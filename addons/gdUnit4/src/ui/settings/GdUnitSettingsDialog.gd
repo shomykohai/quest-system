@@ -17,25 +17,24 @@ const GdUnitUpdateClient = preload ("res://addons/gdUnit4/src/update/GdUnitUpdat
 @onready var _properties_report: Node = % "report-content"
 @onready var _input_capture: GdUnitInputCapture = %GdUnitInputCapture
 @onready var _property_error: Window = % "propertyError"
+@onready var _tab_container: TabContainer = %Properties
+@onready var _update_tab: = %Update
 
 var _font_size: float
 
 
 func _ready() -> void:
+	set_name("GdUnitSettingsDialog")
 	# initialize for testing
 	if not Engine.is_editor_hint():
 		GdUnitSettings.setup()
 	GdUnit4Version.init_version_label(_version_label)
 	_font_size = GdUnitFonts.init_fonts(_version_label)
-	about_to_popup.connect(_do_setup_properties)
-
-
-# do setup the dialog with given settings
-func _do_setup_properties() -> void:
 	setup_properties(_properties_common, GdUnitSettings.COMMON_SETTINGS)
 	setup_properties(_properties_ui, GdUnitSettings.UI_SETTINGS)
 	setup_properties(_properties_report, GdUnitSettings.REPORT_SETTINGS)
 	setup_properties(_properties_shortcuts, GdUnitSettings.SHORTCUT_SETTINGS)
+	check_for_update()
 
 
 func _sort_by_key(left: GdUnitProperty, right: GdUnitProperty) -> bool:
@@ -84,12 +83,12 @@ func setup_properties(properties_parent: Node, property_category: String) -> voi
 		reset_btn.icon = _get_btn_icon("Reload")
 		reset_btn.disabled = property.value() == property.default()
 		grid.add_child(reset_btn)
-		min_size_ += reset_btn.size.x
 
 		# property type specific input element
 		var input: Node = _create_input_element(property, reset_btn)
 		inputs.append(input)
 		grid.add_child(input)
+		@warning_ignore("return_value_discarded")
 		reset_btn.pressed.connect(_on_btn_property_reset_pressed.bind(property, input, reset_btn))
 		# property help text
 		var info: Node = _properties_template.get_child(2).duplicate()
@@ -98,6 +97,7 @@ func setup_properties(properties_parent: Node, property_category: String) -> voi
 		grid.add_child(info)
 		if min_size_overall < min_size_:
 			min_size_overall = min_size_
+
 	for controls: Array in [labels, inputs, info_labels]:
 		var _size: float = controls.map(func(c: Control) -> float: return c.size.x).max()
 		min_size_overall += _size
@@ -106,6 +106,7 @@ func setup_properties(properties_parent: Node, property_category: String) -> voi
 	properties_parent.custom_minimum_size.x = min_size_overall
 
 
+@warning_ignore("return_value_discarded")
 func _create_input_element(property: GdUnitProperty, reset_btn: Button) -> Node:
 	if property.is_selectable_value():
 		var options := OptionButton.new()
@@ -149,6 +150,7 @@ func to_shortcut(keys: PackedInt32Array) -> String:
 	return input_event.as_text()
 
 
+@warning_ignore("return_value_discarded")
 func to_keys(input_event: InputEventKey) -> PackedInt32Array:
 	var keys := PackedInt32Array()
 	if input_event.ctrl_pressed:
@@ -213,11 +215,28 @@ func rescan(update_scripts:=false) -> void:
 		EditorInterface.get_resource_filesystem().update_script_classes()
 
 
+func check_for_update() -> void:
+	if not GdUnitSettings.is_update_notification_enabled():
+		return
+	var response :GdUnitUpdateClient.HttpResponse = await _update_client.request_latest_version()
+	if response.status() != 200:
+		printerr("Latest version information cannot be retrieved from GitHub!")
+		printerr("Error:  %s" % response.response())
+		return
+	var latest_version := _update_client.extract_latest_version(response)
+	if latest_version.is_greater(GdUnit4Version.current()):
+		var tab_index := _tab_container.get_tab_idx_from_control(_update_tab)
+		_tab_container.set_tab_button_icon(tab_index, GdUnitUiTools.get_icon("Notification", Color.YELLOW))
+		_tab_container.set_tab_tooltip(tab_index, "An new update is available.")
+
+
 func _on_btn_report_bug_pressed() -> void:
+	@warning_ignore("return_value_discarded")
 	OS.shell_open("https://github.com/MikeSchulze/gdUnit4/issues/new?assignees=MikeSchulze&labels=bug&projects=projects%2F5&template=bug_report.yml&title=GD-XXX%3A+Describe+the+issue+briefly")
 
 
 func _on_btn_request_feature_pressed() -> void:
+	@warning_ignore("return_value_discarded")
 	OS.shell_open("https://github.com/MikeSchulze/gdUnit4/issues/new?assignees=MikeSchulze&labels=enhancement&projects=&template=feature_request.md&title=")
 
 

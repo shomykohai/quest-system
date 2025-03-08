@@ -110,6 +110,10 @@ static func of_parameterized_test(pe: GdUnitExecutionContext, test_case_name: St
 	return context
 
 
+func get_test_suite_path() -> String:
+	return test_suite.get_script().resource_path
+
+
 func get_test_suite_name() -> StringName:
 	return test_suite.get_name()
 
@@ -344,5 +348,7 @@ func register_auto_free(obj: Variant) -> Variant:
 
 ## Runs the gdunit garbage collector to free registered object
 func gc() -> void:
+	# unreference last used assert form the test to prevent memory leaks
+	GdUnitThreadManager.get_current_context().clear_assert()
 	await _memory_observer.gc()
 	orphan_monitor_stop()

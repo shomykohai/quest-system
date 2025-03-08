@@ -59,7 +59,7 @@ func test_executed_count() -> int:
 
 
 func success_count() -> int:
-	return test_count() - error_count() - failure_count() - flaky_count()
+	return test_count() - error_count() - failure_count() - flaky_count() - skipped_count()
 
 
 func error_count() -> int:
@@ -95,14 +95,16 @@ func add_report(report :GdUnitReportSummary) -> void:
 
 
 func report_state() -> String:
-	return calculate_state(error_count(), failure_count(), orphan_count(), flaky_count())
+	return calculate_state(error_count(), failure_count(), orphan_count(), flaky_count(), skipped_count())
 
 
 func succes_rate() -> String:
 	return calculate_succes_rate(test_count(), error_count(), failure_count())
 
 
-func calculate_state(p_error_count :int, p_failure_count :int, p_orphan_count :int, p_flaky_count: int) -> String:
+func calculate_state(p_error_count :int, p_failure_count :int, p_orphan_count :int, p_flaky_count: int, p_skipped_count: int) -> String:
+	if p_skipped_count > 0:
+		return "SKIPPED"
 	if p_error_count > 0:
 		return "ERROR"
 	if p_failure_count > 0:
@@ -127,9 +129,10 @@ func create_summary(_report_dir :String) -> String:
 	return ""
 
 
-func html_encode(value :String) -> String:
-	for key in CHARACTERS_TO_ENCODE.keys() as Array[String]:
-		value =value.replace(key, CHARACTERS_TO_ENCODE[key])
+func html_encode(value: String) -> String:
+	for key: String in CHARACTERS_TO_ENCODE.keys():
+		@warning_ignore("unsafe_cast")
+		value = value.replace(key, CHARACTERS_TO_ENCODE[key] as String)
 	return value
 
 

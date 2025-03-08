@@ -12,17 +12,22 @@ func __run_expression() -> Variant:
 var constructor_args_regex := RegEx.create_from_string("new\\((?<args>.*)\\)")
 
 
-func execute(src_script: GDScript, expression: String) -> Variant:
+func execute(src_script: GDScript, value: Variant) -> Variant:
+	if typeof(value) != TYPE_STRING:
+		return value
+
+	var expression: String = value
 	var parameter_map := src_script.get_script_constant_map()
-	for key:String in parameter_map.keys():
-		var value:Variant = parameter_map[key]
+	for key: String in parameter_map.keys():
+		var parameter_value: Variant = parameter_map[key]
 		# check we need to construct from inner class
 		# we need to use the original class instance from the script_constant_map otherwise we run into a runtime error
-		if expression.begins_with(key + ".new") and value is GDScript:
+		if expression.begins_with(key + ".new") and parameter_value is GDScript:
+			var object: GDScript = parameter_value
 			var args := build_constructor_arguments(parameter_map, expression.substr(expression.find("new")))
 			if args.is_empty():
-				return value.new()
-			return value.callv("new", args)
+				return object.new()
+			return object.callv("new", args)
 
 	var script := GDScript.new()
 	var resource_path := "res://addons/gdUnit4/src/Fuzzers.gd" if src_script.resource_path.is_empty() else src_script.resource_path
@@ -30,10 +35,12 @@ func execute(src_script: GDScript, expression: String) -> Variant:
 		.replace("${clazz_path}", resource_path)\
 		.replace("$expression", expression)
 	#script.take_over_path(resource_path)
+	@warning_ignore("return_value_discarded")
 	script.reload(true)
-	var runner :Variant = script.new()
+	var runner: Object = script.new()
 	if runner.has_method("queue_free"):
-		runner.queue_free()
+		(runner as Node).queue_free()
+	@warning_ignore("unsafe_method_access")
 	return runner.__run_expression()
 
 
@@ -63,4 +70,5 @@ func build_constructor_arguments(parameter_map: Dictionary, expression: String) 
 
 
 func to_fuzzer(src_script: GDScript, expression: String) -> Fuzzer:
+	@warning_ignore("unsafe_cast")
 	return execute(src_script, expression) as Fuzzer

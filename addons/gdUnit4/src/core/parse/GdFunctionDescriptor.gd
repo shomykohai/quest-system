@@ -96,7 +96,7 @@ func is_private() -> bool:
 	return name().begins_with("_") and not is_virtual()
 
 
-func return_type() -> Variant:
+func return_type() -> int:
 	return _return_type
 
 
@@ -106,10 +106,12 @@ func return_type_as_string() -> String:
 	return GdObjects.type_as_string(return_type())
 
 
-func set_argument_value(arg_name: String, value: Variant) -> void:
-	_args.filter(func(arg: GdFunctionArgument) -> bool: return arg.name() == arg_name)\
-		.front()\
-		.set_value(value)
+@warning_ignore("unsafe_cast")
+func set_argument_value(arg_name: String, value: String) -> void:
+	(
+		_args.filter(func(arg: GdFunctionArgument) -> bool: return arg.name() == arg_name)\
+		.front() as GdFunctionArgument
+	).set_value(value)
 
 
 func enrich_file_info(p_source_path: String, p_line_number: int) -> void:
@@ -128,8 +130,10 @@ func varargs() -> Array[GdFunctionArgument]:
 func typed_args() -> String:
 	var collect := PackedStringArray()
 	for arg in args():
+		@warning_ignore("return_value_discarded")
 		collect.push_back(arg._to_string())
 	for arg in varargs():
+		@warning_ignore("return_value_discarded")
 		collect.push_back(arg._to_string())
 	return ", ".join(collect)
 
@@ -146,21 +150,22 @@ func _to_string() -> String:
 
 # extract function description given by Object.get_method_list()
 static func extract_from(descriptor :Dictionary, is_engine_ := true) -> GdFunctionDescriptor:
-	var function_flags :int = descriptor["flags"]
+	var func_name: String = descriptor["name"]
+	var function_flags: int = descriptor["flags"]
 	var return_descriptor: Dictionary = descriptor["return"]
-	var is_virtual_ :bool = function_flags & METHOD_FLAG_VIRTUAL
-	var is_static_ :bool = function_flags & METHOD_FLAG_STATIC
-	var is_vararg_ :bool = function_flags & METHOD_FLAG_VARARG
-
+	var clazz_name: String = return_descriptor["class_name"]
+	var is_virtual_: bool = function_flags & METHOD_FLAG_VIRTUAL
+	var is_static_: bool = function_flags & METHOD_FLAG_STATIC
+	var is_vararg_: bool = function_flags & METHOD_FLAG_VARARG
 
 	return GdFunctionDescriptor.new(
-		descriptor["name"],
+		func_name,
 		-1,
 		is_virtual_,
 		is_static_,
 		is_engine_,
 		_extract_return_type(return_descriptor),
-		return_descriptor["class_name"],
+		clazz_name,
 		_extract_args(descriptor),
 		_build_varargs(is_vararg_)
 	)
@@ -212,11 +217,8 @@ static func _extract_args(descriptor :Dictionary) -> Array[GdFunctionArgument]:
 		var arg_type := _argument_type(arg)
 		var arg_type_hint := _argument_hint(arg)
 		#var arg_class: StringName = arg["class_name"]
-		var arg_default :Variant = GdFunctionArgument.UNDEFINED
-		if not defaults.is_empty():
-			var default_value :Variant = defaults.pop_back()
-			arg_default = GdDefaultValueDecoder.decode_typed(arg_type, default_value)
-		args_.push_front(GdFunctionArgument.new(arg_name, arg_type, arg_default, arg_type_hint))
+		var default_value: Variant = GdFunctionArgument.UNDEFINED if defaults.is_empty() else defaults.pop_back()
+		args_.push_front(GdFunctionArgument.new(arg_name, arg_type, default_value, arg_type_hint))
 	return args_
 
 
@@ -232,7 +234,7 @@ static func _build_varargs(p_is_vararg :bool) -> Array[GdFunctionArgument]:
 
 
 static func _argument_name(arg :Dictionary) -> String:
-	return arg["name"] as String
+	return arg["name"]
 
 
 static func _argument_type(arg :Dictionary) -> int:

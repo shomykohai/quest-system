@@ -6,6 +6,7 @@ var _script_path: String
 var _test_case_names :PackedStringArray = []
 
 
+@warning_ignore("unsafe_method_access")
 func serialize(test_case :Node) -> Dictionary:
 	var serialized := super.serialize(test_case)
 	if test_case.has_method("line_number"):
@@ -25,7 +26,8 @@ func serialize(test_case :Node) -> Dictionary:
 	return serialized
 
 
-func deserialize(data :Dictionary) -> GdUnitResourceDto:
+func deserialize(data :Dictionary) -> GdUnitTestCaseDto:
+	@warning_ignore("return_value_discarded")
 	super.deserialize(data)
 	_line_number = data.get("line_number", -1)
 	_script_path = data.get("script_path", data.get("resource_path", ""))

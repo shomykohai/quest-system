@@ -82,7 +82,9 @@ static func get_enum_default(value :String) -> Variant:
 		return %s.values()[0]
 
 	""".dedent() % value
+	@warning_ignore("return_value_discarded")
 	script.reload()
+	@warning_ignore("unsafe_method_access")
 	return script.new().call("get_enum_default")
 
 
@@ -117,6 +119,7 @@ func get_template(return_type: GdFunctionDescriptor, is_callable: bool) -> Strin
 	assert(false, "'get_template' must be implemented!")
 	return ""
 
+
 func double(func_descriptor: GdFunctionDescriptor, is_callable: bool = false) -> PackedStringArray:
 	var is_static := func_descriptor.is_static()
 	var is_coroutine := func_descriptor.is_coroutine()
@@ -133,13 +136,12 @@ func double(func_descriptor: GdFunctionDescriptor, is_callable: bool = false) ->
 		var constructor := "func _init(%s) -> void:\n	super(%s)\n	pass\n" % [constructor_args, ", ".join(arg_names)]
 		return constructor.split("\n")
 
-	var double_src := '@warning_ignore("untyped_declaration")\n' if Engine.get_version_info().hex >= 0x40200 else '\n'
+	var double_src := "@warning_ignore('shadowed_variable', 'untyped_declaration', 'unsafe_call_argument', 'unsafe_method_access')\n"
 	if func_descriptor.is_engine():
 		double_src += '@warning_ignore("native_method_override")\n'
 	if func_descriptor.return_type() == GdObjects.TYPE_ENUM:
 		double_src += '@warning_ignore("int_as_enum_without_match")\n'
 		double_src += '@warning_ignore("int_as_enum_without_cast")\n'
-	double_src += '@warning_ignore("shadowed_variable")\n'
 	double_src += GdFunctionDoubler.extract_func_signature(func_descriptor)
 	# fix to  unix format, this is need when the template is edited under windows than the template is stored with \r\n
 	var func_template := get_template(func_descriptor, is_callable).replace("\r\n", "\n")
@@ -161,6 +163,7 @@ func double(func_descriptor: GdFunctionDescriptor, is_callable: bool = false) ->
 func extract_arg_names(argument_signatures: Array[GdFunctionArgument], add_suffix := false) -> PackedStringArray:
 	var arg_names := PackedStringArray()
 	for arg in argument_signatures:
+		@warning_ignore("return_value_discarded")
 		arg_names.append(arg._name + ("_" if add_suffix else ""))
 	return arg_names
 
@@ -171,8 +174,10 @@ static func extract_constructor_args(args :Array[GdFunctionArgument]) -> PackedS
 		var arg_name := arg._name + "_"
 		var default_value := get_default(arg)
 		if default_value == "null":
+			@warning_ignore("return_value_discarded")
 			constructor_args.append(arg_name + ":Variant=" + default_value)
 		else:
+			@warning_ignore("return_value_discarded")
 			constructor_args.append(arg_name + ":=" + default_value)
 	return constructor_args
 
@@ -192,10 +197,13 @@ static func typeless_args(descriptor: GdFunctionDescriptor) -> String:
 	var collect := PackedStringArray()
 	for arg in descriptor.args():
 		if arg.has_default():
+			@warning_ignore("return_value_discarded")
 			collect.push_back(arg.name() + "_" + "=" + arg.value_as_string())
 		else:
+			@warning_ignore("return_value_discarded")
 			collect.push_back(arg.name() + "_")
 	for arg in descriptor.varargs():
+		@warning_ignore("return_value_discarded")
 		collect.push_back(arg.name() + "=" + arg.value_as_string())
 	return ", ".join(collect)
 

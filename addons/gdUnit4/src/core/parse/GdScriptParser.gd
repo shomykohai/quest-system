@@ -258,6 +258,7 @@ class TokenInnerClass extends Token:
 
 	func parse(source_rows :PackedStringArray, offset :int) -> void:
 		# add class signature
+		@warning_ignore("return_value_discarded")
 		_content.append(source_rows[offset])
 		# parse class content
 		for row_index in range(offset+1, source_rows.size()):
@@ -270,8 +271,10 @@ class TokenInnerClass extends Token:
 					source_row = source_row.trim_prefix("\t")
 				# refomat invalid empty lines
 				if source_row.dedent().is_empty():
+					@warning_ignore("return_value_discarded")
 					_content.append("")
 				else:
+					@warning_ignore("return_value_discarded")
 					_content.append(source_row)
 				continue
 			break
@@ -344,7 +347,7 @@ func tokenize_inner_class(source_code: String, current: int, token: Token) -> To
 	return TokenInnerClass.new(clazz_name)
 
 
-func parse_return_token(input: String) -> Token:
+func parse_return_token(input: String) -> Variable:
 	var index := input.rfind(TOKEN_FUNCTION_RETURN_TYPE._token)
 	if index == -1:
 		return TOKEN_NOT_MATCH
@@ -364,7 +367,7 @@ func get_function_descriptors(script: GDScript, included_functions: PackedString
 		var func_name: String = method_descriptor["name"]
 		if included_functions.is_empty() or func_name in included_functions:
 			# exclude type set/geters
-			if func_name in ["@type_setter", "@type_getter"]:
+			if is_getter_or_setter(func_name):
 				continue
 			if not fds.any(func(fd: GdFunctionDescriptor) -> bool: return fd.name() == func_name):
 				fds.append(GdFunctionDescriptor.extract_from(method_descriptor, false))
@@ -374,6 +377,10 @@ func get_function_descriptors(script: GDScript, included_functions: PackedString
 	_prescan_script(script)
 	_enrich_function_descriptor(script, fds)
 	return fds
+
+
+func is_getter_or_setter(func_name: String) -> bool:
+	return func_name.begins_with("@") and (func_name.ends_with("getter") or func_name.ends_with("setter"))
 
 
 func _parse_function_arguments(input: String) -> Dictionary:
@@ -418,12 +425,12 @@ func _parse_function_arguments(input: String) -> Dictionary:
 		if token is FuzzerToken:
 			var arg_value := _parse_end_function(input.substr(current_index), true)
 			current_index += arg_value.length()
-			var arg_name :String = token.name()
+			var arg_name :String = (token as FuzzerToken).name()
 			arguments[arg_name] = arg_value.lstrip(" ")
 			continue
 		# is value argument
 		if in_function and token.is_variable():
-			var arg_name: String = token.plain_value()
+			var arg_name: String = (token as Variable).plain_value()
 			var arg_value: String = GdFunctionArgument.UNDEFINED
 			# parse type and default value
 			while current_index < len(input):
@@ -516,6 +523,7 @@ func _parse_end_function(input: String, remove_trailing_char := false) -> String
 	return input.substr(0, current_index)
 
 
+@warning_ignore("unsafe_method_access")
 func extract_inner_class(source_rows: PackedStringArray, clazz_name :String) -> PackedStringArray:
 	for row_index in source_rows.size():
 		var input := source_rows[row_index]
@@ -554,7 +562,7 @@ func get_class_name(script :GDScript) -> String:
 			token = next_token(input, current_index)
 			current_index += token._consumed
 			token = tokenize_value(input, current_index, token)
-			return token.value()
+			return (token as Variable).value()
 	# if no class_name found extract from file name
 	return GdObjects.to_pascal_case(script.resource_path.get_basename().get_file())
 
@@ -599,19 +607,21 @@ func _enrich_function_descriptor(script: GDScript, fds: Array[GdFunctionDescript
 				).pop_front()
 				if fd != null:
 					# add as enriched function to exclude from next iteration (could be inherited)
+					@warning_ignore("return_value_discarded")
 					enriched_functions.append(fd.name())
 					var func_signature := extract_func_signature(rows, rowIndex)
 					var func_arguments := _parse_function_arguments(func_signature)
 					# enrich missing default values
 					for arg_name: String in func_arguments.keys():
-						fd.set_argument_value(arg_name, func_arguments[arg_name])
+						var func_argument: String = func_arguments[arg_name]
+						fd.set_argument_value(arg_name, func_argument)
 					fd.enrich_file_info(script_to_scan.resource_path, rowIndex + 1)
 					fd._is_coroutine = is_func_coroutine(rows, rowIndex)
 					# enrich return class name if not set
 					if fd.return_type() == TYPE_OBJECT and fd._return_class in ["", "Resource", "RefCounted"]:
-						token = parse_return_token(func_signature)
-						if token != TOKEN_NOT_MATCH and token.type() == TYPE_OBJECT:
-							fd._return_class = _patch_inner_class_names(token.value(), "")
+						var var_token := parse_return_token(func_signature)
+						if var_token != TOKEN_NOT_MATCH and var_token.type() == TYPE_OBJECT:
+							fd._return_class = _patch_inner_class_names(var_token.plain_value(), "")
 		# if the script ihnerits we need to scan this also
 		script_to_scan = script_to_scan.get_base_script()
 
@@ -654,6 +664,7 @@ func _prescan_script(script: GDScript) -> void:
 	for key :String in _script_constants.keys():
 		var value :Variant = _script_constants.get(key)
 		if value is GDScript:
+			@warning_ignore("return_value_discarded")
 			_scanned_inner_classes.append(key)
 
 
