@@ -1,7 +1,7 @@
 @tool
 extends EditorPlugin
 
-const REMOTE_RELEASE_URL: String = "https://api.github.com/repos/shomykohai/quest-system/releases/latest"
+const REMOTE_RELEASE_URL: String = "https://api.github.com/repos/shomykohai/quest-system/releases"
 const QuestPropertyTranslationPlugin = preload("./translation_plugin.gd")
 const QuestSystemSettings = preload("./settings.gd")
 
@@ -39,6 +39,7 @@ func _enter_tree() -> void:
 			await http_request.request_completed
 			http_request.queue_free()
 
+
 func _exit_tree() -> void:
 	remove_autoload_singleton("QuestSystem")
 	remove_translation_parser_plugin(translation_plugin)
@@ -47,23 +48,57 @@ func _exit_tree() -> void:
 		update_button.queue_free()
 	translation_plugin = null
 
+
 func _version_to_int(ver: String) -> int:
 	var parts: Array = ver.split(".")
-	return parts[0].to_int() * 100 + parts[1].to_int() * 10 + parts[2].to_int()
+	return parts[0].to_int() * 10000 + parts[1].to_int() * 100 + parts[2].to_int()
+
 
 func _get_plugin_icon() -> Texture2D:
 	return load(_get_plugin_path() + "/assets/quest_resource.svg")
 
+
 func _get_plugin_path() -> String:
 	return get_script().resource_path.get_base_dir()
 
-func _http_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray):
+
+func _http_request_completed(result: int, _response_code: int, _headers: PackedStringArray, body: PackedByteArray):
 	if result != HTTPRequest.RESULT_SUCCESS:
 		return
 
-	var data: Dictionary = JSON.parse_string(body.get_string_from_utf8())
-	if _version_to_int(data["tag_name"]) <= _version_to_int(get_plugin_version()):
+	var data: Array[Dictionary]
+	data.assign(JSON.parse_string(body.get_string_from_utf8()))
+
+
+	var current_project_version: String = ProjectSettings.get_setting("application/config/features")[0]
+	var versions: Array[Dictionary] = data.filter(
+		func(release):
+			# QuestSystem releases on GitHub are tagged as: "major.minor.patch". We also need to check if the major version is less than 2
+			if current_project_version.split(".")[1].to_int() <= 3:
+				# We are in Godot 4.0-4.3, so we avoid updating to QuestSystem 2.0, which is only compatible with Godot 4.4+
+				# We only check for major version if we are in Godot 4.0-4.3, but allow the user to update to v2 if they are in Godot 4.4+
+				var same_major: bool = release["tag_name"].split(".")[0] == get_plugin_version().split(".")[0]
+				return _version_to_int(release["tag_name"]) > _version_to_int(get_plugin_version()) && same_major
+
+			# This is for Godot 4.4+ where we only check if the release is newer than the current version,
+			# and that the minumum Godot version is less or equal than the current project version.
+			# The minimum Godot version will be declared in the tag_name: "major.minor.patch.godot_version"
+			# This also ensures retro-compatibility with the old version tags
+			var ver = release["tag_name"].split(".")
+			var project_version_as_number = current_project_version.split(".")[0].to_int() * 10 + current_project_version.split(".")[0].to_int()
+			var minimum_godot_version = project_version_as_number
+			# Make sure the tag was declared correctly, and if so, we get the actual minumum version from the tag
+			if ver.size() > 3:
+				minimum_godot_version = ver[3].split("_")[0].to_int() * 10 + ver[3].split("_")[1].to_int()
+
+			return _version_to_int(release["tag_name"]) > _version_to_int(get_plugin_version()) && project_version_as_number >= minimum_godot_version
+	)
+
+
+	if versions.size() == 0:
 		return
+
+	var latest_version: Dictionary = versions[0]
 
 	var title_bar: Node = null
 
@@ -73,13 +108,17 @@ func _http_request_completed(result: int, response_code: int, headers: PackedStr
 			title_bar = node.get_children(true)[0]
 			break
 
+	# Get only the version number without the trailing Godot minumum version
+	var version_label: String = latest_version["tag_name"].rsplit(".", false, 1)[0]
+
 	update_button = Button.new()
 	update_button.add_theme_color_override("font_color", Color.ORANGE)
-	update_button.text = data["tag_name"]
+	update_button.text = version_label
 	update_button.icon = _get_plugin_icon()
-	update_button.pressed.connect(_on_update_button_pressed.bind(get_plugin_version(), data["tag_name"], data["body"]))
+	update_button.pressed.connect(_on_update_button_pressed.bind(get_plugin_version(), version_label, latest_version["body"]))
 	title_bar.add_child(update_button)
 	title_bar.move_child(update_button, title_bar.get_child_count(true) - 3)
+
 
 func _on_update_button_pressed(old_ver: String, new_ver: String, release_notes: String) -> void:
 	var update_panel: AcceptDialog = load(_get_plugin_path()+"/views/update_dialog.tscn").instantiate()
