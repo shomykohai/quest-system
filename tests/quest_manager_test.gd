@@ -154,16 +154,16 @@ func test_reset_pool() -> void:
 	assert_bool(QuestSystem.is_quest_active(_second_quest)).is_false()
 	assert_bool(QuestSystem.is_quest_completed(_quest)).is_false()
 
-func test_quests_as_dict() -> void:
+func test_pool_state_as_dict() -> void:
 	QuestSystem.start_quest(_quest)
 	assert_bool(QuestSystem.is_quest_active(_quest)).is_true()
 	var expected_dict: Dictionary = {"available": [], "active": [1], "completed": []}
-	assert_dict(QuestSystem.quests_as_dict()).is_equal(expected_dict)
+	assert_dict(QuestSystem.pool_state_as_dict()).is_equal(expected_dict)
 
-func test_dict_to_quests() -> void:
+func test_restore_pool_state_from_dicts() -> void:
 	var expected_dict: Dictionary = {"available": [], "active": [1], "completed": []}
-	QuestSystem.dict_to_quests(expected_dict, [_quest])
-	assert_dict(QuestSystem.quests_as_dict()).is_equal(expected_dict)
+	QuestSystem.restore_pool_state_from_dict(expected_dict, [_quest])
+	assert_dict(QuestSystem.pool_state_as_dict()).is_equal(expected_dict)
 
 func test_serialize_quests() -> void:
 	QuestSystem.start_quest(_quest)
