@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dd06njq5elwlh"]
 
-[ext_resource type="Script" path="res://addons/quest_system/views/update_dialog.gd" id="1_f82g1"]
+[ext_resource type="Script" uid="uid://dv6t11qm1yhn3" path="res://addons/quest_system/views/update_dialog.gd" id="1_f82g1"]
 [ext_resource type="Texture2D" uid="uid://cwulkprc5aq8d" path="res://addons/quest_system/assets/update.svg" id="1_yub14"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j6wmr"]

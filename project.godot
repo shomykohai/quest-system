@@ -13,15 +13,15 @@ config_version=5
 config/name="Quest System"
 config/tags=PackedStringArray("addons")
 run/main_scene="res://test/test.tscn"
-config/features=PackedStringArray("4.3", "Forward Plus")
-boot_splash/image="res://icon.png"
+config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/fullsize=false
+boot_splash/image="res://icon.png"
 config/icon="res://icon.svg"
 
 [autoload]
 
-QuestSystem="*res://addons/quest_system/quest_manager.gd"
 Gamestate="*res://test/gamestate.gd"
+QuestSystem="*res://addons/quest_system/quest_manager.gd"
 
 [editor_plugins]
 

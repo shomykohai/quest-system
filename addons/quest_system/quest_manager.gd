@@ -69,8 +69,8 @@ func start_quest(quest: Quest, args: Dictionary = {}) -> Quest:
 
 
 ## Complete a given quest, and add it to the completed pool.[br]
-## Additionally, if the [objective_completed] property of the quest 
-##is not set to true when the complete() method gets called, 
+## Additionally, if the [objective_completed] property of the quest
+##is not set to true when the complete() method gets called,
 ## it will not mark the quest as completed and instead return back the quest object.[br]
 ##
 ## You can ovverride this behavior by setting the "require_objective_completed" in the ProjectSettings to false
