@@ -7,10 +7,11 @@
 [![BSkyShomy](https://img.shields.io/badge/-shomy-1185FE?style=flat&logo=bluesky&logoColor=white&labelColor=1185FE)](https://shomy.bsky.social)
 [![GodotEngine](https://img.shields.io/badge/-Godot%204-250a78?style=flat&logo=godotengine&logoColor=white&labelColor=250a78)](https://godotengine.org/)
 
-# QuestSystem for Godot 4
+# QuestSystem for Godot 4.4+
 
-QuestSystem is a minimal, powerful and modular addon for [Godot 4](https://godotengine.org/) that simplifies the creation of custom quest, with an easy to use API, resource based quests and completely compatible with other addons with its modularity.
+QuestSystem is a minimal, powerful and modular addon for [Godot 4.4+](https://godotengine.org/) that simplifies the creation of custom quest, with an easy to use API, resource based quests and completely compatible with other addons with its modularity.
 
+For the Godot 4.0-4.3 version, switch to the v1.x branch.
 
 ## Features
 
