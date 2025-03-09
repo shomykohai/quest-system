@@ -1,34 +1,22 @@
-## `QuestSystemManagerAPI`
-**Inherits:** [AbstractQuestManagerAPI](/api/abstract_quest_manager.md)
+## `AbstractQuestManagerAPI`
+**Inherits:** [Node](https://docs.godotengine.org/en/stable/classes/class_node.html)
 ### Description
 
-The `QuestSystemManagerAPI` class is the main default autoload, which implements all the methods and signals that are required to manage the default pools: [AvailableQuestPool], [ActiveQuestPool] and [CompletedQuestPool].<br>
+The `AbstractQuestManagerAPI` class is the main entrypoint to the Quest API.<br>
+This class is an abstract class and should not be used directly.<br>
+Instead, you should subclass it and implement the methods that you need.<br><br>
 
-You can subclass `QuestSystemManagerAPI` and set the new script in `ProjectSettings -> QuestSystem -> Autoload Script Path` to edit or add new methods and signals to the `QuestSystem` autoload using `QuestSystemManagerAPI` as a base.<br>
+By default, QuestSystem ships with an already preconfigures manager, `QuestSystemManagerAPI`,
+which implements all the methods and signals that are required to manage the default pools:
+[AvailableQuestPool], [ActiveQuestPool] and [CompletedQuestPool].<br><br>
 
-For more advanced, read the documentation of [AbstractQuestManagerAPI](/api/abstract_quest_manager.md).
+This is only useful for more advanced use, you can subclass `AbstractQuestManagerAPI` and set the new script in `ProjectSettings -> QuestSystem -> Autoload Script Path` to edit or add new methods and signals to the `QuestSystem` autoload.
 
-### Properties
-
-| Name           | Type        | Description |
-| ---------------| ------------| ------------| 
-| `available`    | [AvailableQuestPool](#availablequestpool)| Reference to the default "available pool" |
-| `active`    | [ActiveQuestPool](#activequestpool)| Reference to the default "active pool" |
-| `completed`    | [CompletedQuestPool](#completedquestpool)| Reference to the default "completed pool" |
 
 ### Methods
 
 | Name | Return Type |
 | ---- | ----------- |
-| [**start_quest**](#quest-start_questquest-quest-args-dictionary--)**(quest:** [Quest](/api/quest_resource.md)**, args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)**  | [Quest](/api/quest_resource.md) |
-| [**complete_quest**](#quest-complete_questquest-quest-args-dictionary--)**(quest:** [Quest](/api/quest_resource.md)**, args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)**  | [Quest](/api/quest_resource.md) |
-| [**update_quest**](#quest-update_questquest-quest-args-dictionary--)**(quest:** [Quest](/api/quest_resource.md)**, args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)** | [Quest](/api/quest_resource.md) |
-| [**mark_quest_as_available**](#void-mark_quest_as_availablequest-quest)**(quest:** [Quest](/api/quest_resource.md)**)** | **void** |
-| [**get_available_quests**](#arrayquest-get_available_quests)**()** | [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[Quest](/api/quest_resource.md)]** |
-| [**get_active_quests**](#arrayquest-get_active_quests)**()** | [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[Quest](/api/quest_resource.md)]** |
-| [**is_quest_available**](#bool-is_quest_availablequest-quest)**(quest:** [Quest](/api/quest_resource.md)**)** | [bool](https://docs.godotengine.org/en/stable/classes/class_bool.html) |
-| [**is_quest_active**](#bool-is_quest_activequest-quest)**(quest:** [Quest](/api/quest_resource.md)**)** | [bool](https://docs.godotengine.org/en/stable/classes/class_bool.html) |
-| [**is_quest_completed**](#bool-is_quest_completedquest-quest)**(quest:** [Quest](/api/quest_resource.md)**)** | [bool](https://docs.godotengine.org/en/stable/classes/class_bool.html) |
 | [**is_quest_in_pool**](#bool-is_quest_in_poolquest-quest-pool_name-string)**(quest:** [Quest](/api/quest_resource.md), **pool_name:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | [bool](https://docs.godotengine.org/en/stable/classes/class_bool.html) |
 | [**call_quest_method**](#void-call_quest_methodquest_id-int-method-string--args-array)**(quest_id:** [int](https://docs.godotengine.org/en/stable/classes/class_int.html), **method:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html),  **args:** [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**)** | **void** |
 | [**set_quest_property**](#void-set_quest_propertyquest_id-int-property-string--value-variant)**(quest_id:** [int](https://docs.godotengine.org/en/stable/classes/class_int.html), **property:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html),  **value:** [Variant](https://docs.godotengine.org/en/stable/classes/class_variant.html)**)** | **void** |
@@ -44,56 +32,8 @@ For more advanced, read the documentation of [AbstractQuestManagerAPI](/api/abst
 | [**serialize_quests**](#dictionary-serialize_questspool-string)**(pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) |
 | [**deserialize_quests**](#dictionary-serialize_questspool-string)**(data:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html)**, pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html) = ""**)** | [Error](https://docs.godotengine.org/en/stable/classes/class_%40globalscope.html#enum-globalscope-error) |
 
-### Signals
-| signal | description |
-| ------ | ----------- |
-| quest_accepted(quest: [Quest](/api/quest_resource.md)) | Emitted when a quest gets moved to the ActivePool |
-| quest_completed(quest: [Quest](/api/quest_resource.md)) | Emitted when a quest gets moved to the CompletedPool |
-| new_available_quest(quest: [Quest](/api/quest_resource.md)) | Emitted when a quest gets added to the AvailablePool |
 
 --------------
-#### _[Quest](/api/quest_resource.md)_ **start_quest(quest:** [Quest](/api/quest_resource.md)**, args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)**
-> Starts a given quest by calling its [start()]() method and moving it from the available pool to the active pool.<br><br>
-> Can be called even if the quest is not in the available pool.<br>
-> If the quest is already in the active pool or in the complete pool, it won't do nothing and returns back the quest.<br><br>
-> Additional data can be passed as a dictionary using the optional `args` parameter.<br>
->
-> It also emits the [quest_accepted signal](#signals)
-
-#### _[Quest](/api/quest_resource.md)_ **complete_quest(quest:** [Quest](/api/quest_resource.md)**, args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)**
-> Stops a given quest by calling its [complete()]() method and moving it from the active pool to the completed pool.<br><br>
-> If the quest is not in the active pool, it won't do nothing and returns back the quest.<br><br>
->
-> **If the [objective_completed]() property of the quest is not set to true when the complete() method gets called, it will not mark the quest as completed and instead return back the quest object.**
->
-> Additional data can be passed as a dictionary using the optional `args` parameter.<br>
->
-> It also emits the [quest_completed signal](#signals)
-
-#### _[Quest](/api/quest_resource.md)_ **update_quest(quest:** [Quest](/api/quest_resource.md)**, args:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) = {}**)**
-> Updates the given quest by calling its [update()]() method.<br>
->
-> Additional data can be passed as a dictionary using the optional `args` parameter.
-
-#### _void_ **mark_quest_as_available(quest:** [Quest](/api/quest_resource.md)**)**
-> Adds a quest to the available pool if not already present in any of the [default pools](#properties)<br>
-> It also emits the [new_available_quest signal](#signals)
-
-#### _[Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[Quest](/api/quest_resource.md)]**_ **get_available_quests()**
-> Returns all quests in the available pool
-
-#### _[Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[Quest](/api/quest_resource.md)]**_ **get_active_quests()**
-> Returns all quests in the active pool
-
-#### _[bool](https://docs.godotengine.org/en/stable/classes/class_bool.html)_ **is_quest_available(quest:** [Quest](/api/quest_resource.md)**)**
-> Checks if the given quest is inside the avaiable pool. Returns `true` if the quest is found.
-
-#### _[bool](https://docs.godotengine.org/en/stable/classes/class_bool.html)_ **is_quest_active(quest:** [Quest](/api/quest_resource.md)**)**
-> Checks if the given quest is inside the active pool. Returns `true` if the quest is found.
-
-#### _[bool](https://docs.godotengine.org/en/stable/classes/class_bool.html)_ **is_quest_completed(quest:** [Quest](/api/quest_resource.md)**)**
-> Checks if the given quest is inside the completed pool. Returns `true` if the quest is found.
-
 #### _[bool](https://docs.godotengine.org/en/stable/classes/class_bool.html)_ **is_quest_in_pool(quest:** [Quest](/api/quest_resource.md), **pool_name:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)**
 > Checks if the given quest is inside the requested pool. Returns `true` if the quest is found. <br>
 > If no pool with the given name is found, returns `false`.
