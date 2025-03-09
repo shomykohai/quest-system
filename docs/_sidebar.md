@@ -4,6 +4,7 @@
   - [ 🔧 Settings](/settings.md)
   - [ 📝Example Projects](/examples.md)
 - [📗 Manual](/api/ "📗 Manual")
+    - [🧰 AbstractQuestManagerAPI](/api/abstract_quest_manager.md "🧰 AbstractQuestManagerAPI")
     - [🔌 QuestSystem](/api/quest_manager.md "🔌 QuestSystem API")
     - [📜 Quest](/api/quest_resource.md "📜 Quest")
     - [🗃 QuestPool](/api/quest_pool/ "🗃 QuestPool")
