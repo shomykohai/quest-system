@@ -2,7 +2,6 @@
 extends AcceptDialog
 
 signal updated
-signal failed
 
 const DOWNLOAD_URL: String = "https://github.com/shomykohai/quest-system/archive/refs/tags/%s.zip"
 const TEMP_FILE_PATH: String = "user://quest_system_temp.zip"
