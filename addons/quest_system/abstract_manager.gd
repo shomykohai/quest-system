@@ -183,7 +183,7 @@ func reset_pool(pool_name: StringName = "") -> void:
 ##		"active": [4, 5, 6],
 ##		"completed": [7, 8, 9]
 ##	}
-func quests_as_dict() -> Dictionary:
+func pool_state_as_dict() -> Dictionary:
 	var quest_dict: Dictionary = {}
 
 	for pool in get_all_pools():
@@ -198,7 +198,7 @@ func quests_as_dict() -> Dictionary:
 ##
 ## This only ensure the quests are restored in the correct pool, but 
 ## it does not load the single quest state. For that use `deserialize_quests`
-func dict_to_quests(dict: Dictionary, quests: Array[Quest]) -> void:
+func restore_pool_state_from_dict(dict: Dictionary, quests: Array[Quest]) -> void:
 	for pool in get_all_pools():
 
 		# Make sure to iterate only for available pools

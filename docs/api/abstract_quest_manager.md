@@ -27,8 +27,8 @@ This is only useful for more advanced use, you can subclass `AbstractQuestManage
 | [**get_all_pools()**]() | [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[BaseQuestPool](quest_pool/base_quest_pool.md)]** |
 | [**move_quest_to_pool**](#quest-move_quest_to_poolquest-quest-old_pool-string-new_pool-string)**(quest:** [Quest](/api/quest_resource.md), **old_pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html), **new_pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | [Quest](/api/quest_resource.md) |
 | [**reset_pool**]()**()** | **void** |
-| [**quests_as_dict**](#dictionary-quests_as_dict)**()** | [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) |
-| [**dict_to_quests**](#void-dict_to_questsdict-dictionary-quests-arrayquest)**(dict:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html), **quests:** [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[Quest](/api/quest_resource.md)])** | **void** |
+| [**pool_state_as_dict**](#dictionary-pool_state_as_dict)**()** | [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) |
+| [**restore_pool_state_from_dict**](#void-restore_pool_state_from_dictdict-dictionary-quests-arrayquest)**(dict:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html), **quests:** [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[Quest](/api/quest_resource.md)])** | **void** |
 | [**serialize_quests**](#dictionary-serialize_questspool-string)**(pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)** | [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html) |
 | [**deserialize_quests**](#dictionary-serialize_questspool-string)**(data:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html)**, pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html) = ""**)** | [Error](https://docs.godotengine.org/en/stable/classes/class_%40globalscope.html#enum-globalscope-error) |
 
@@ -77,7 +77,7 @@ This is only useful for more advanced use, you can subclass `AbstractQuestManage
 #### _void_ **reset_pool(pool_name:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html) = ""**)**
 > Resets all pools if `pool_name` is not given, or resets the specified pool.
 
-#### _[Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html)_ **quests_as_dict()**
+#### _[Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html)_ **pool_state_as_dict()**
 > Returns a dictionary with all the quest pools and their respectively quests referenced by their id.
 > ```json
 > {
@@ -87,8 +87,8 @@ This is only useful for more advanced use, you can subclass `AbstractQuestManage
 > }
 > ```
 >
-#### _void_ **dict_to_quests(dict:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html), **quests:** [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[Quest](/api/quest_resource.md)])**
-> Loads back into the pools the given quest resources based on a dictionary as the one that [quest_as_dict()](#dictionary-quests_as_dict) returns.<br>
+#### _void_ **restore_pool_state_from_dict(dict:** [Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html), **quests:** [Array](https://docs.godotengine.org/en/stable/classes/class_array.html)**[[Quest](/api/quest_resource.md)])**
+> Loads back into the pools the given quest resources based on a dictionary as the one that [pool_state_as_dict()](#dictionary-pool_state_as_dict) returns.<br>
 > If a pool in the dictionary is not present in the QuestSystem children, it gets skipped.
 
 #### _[Dictionary](https://docs.godotengine.org/en/stable/classes/class_dictionary.html)_ **serialize_quests(pool:** [String](https://docs.godotengine.org/en/stable/classes/class_string.html)**)**
