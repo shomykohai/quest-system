@@ -16,7 +16,7 @@ func _enter_tree() -> void:
 	if autoload_path != "quest_manager.gd" and autoload_path != _get_plugin_path() + "/quest_manager.gd":
 		if ResourceLoader.exists(autoload_path):
 			var autoload = load(autoload_path).new()
-			if autoload == null or not autoload is QuestSystemManagerAPI:
+			if autoload == null or not autoload is AbstractQuestManagerAPI:
 				print_rich("[color=red][!][/color] [b]Cannot override default autoload script!\n[color=red]The script is not valid.[/color]\nUsing default script. Check QuestSystem settings.[/b]")
 				autoload_path = "quest_manager.gd"
 			autoload.queue_free()
