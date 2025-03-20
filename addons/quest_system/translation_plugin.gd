@@ -4,7 +4,7 @@ func _parse_file(path: String) -> Array[PackedStringArray]:
 	var res := ResourceLoader.load(path)
 	if not res: return []
 	if not res is Quest: return []
-	
+
 	var ret: Array[PackedStringArray] = []
 	for property in res.get_script().get_script_property_list():
 		var msgids: PackedStringArray = []

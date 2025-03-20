@@ -1,7 +1,8 @@
 @tool
 extends EditorPlugin
 
-const REMOTE_RELEASE_URL: String = "https://api.github.com/repos/shomykohai/quest-system/releases"
+const REMOTE_RELEASE_URL: String = &"https://api.github.com/repos/shomykohai/quest-system/releases"
+const DEFAULT_MANAGER_UID: String = &"uid://b77kvbliweux5"
 const QuestPropertyTranslationPlugin = preload("./translation_plugin.gd")
 const QuestSystemSettings = preload("./settings.gd")
 
@@ -13,8 +14,17 @@ func _enter_tree() -> void:
 
 	# Override default autoload script path
 	var autoload_path: String = QuestSystemSettings.get_config_setting("autoload_script_path", "quest_manager.gd")
-	if autoload_path != "quest_manager.gd" and autoload_path != _get_plugin_path() + "/quest_manager.gd":
-		if ResourceLoader.exists(autoload_path):
+	if autoload_path not in ["quest_manager.gd", DEFAULT_MANAGER_UID] and autoload_path != _get_plugin_path() + "/quest_manager.gd":
+		if autoload_path.begins_with("uid://"):
+			# The autoload is a UID path
+			var autoload = load(autoload_path).new()
+			if autoload == null or not autoload is AbstractQuestManagerAPI:
+				print_rich("[color=red][!][/color] [b]Cannot override default autoload script!\n[color=red]The script is not valid.[/color]\nUsing default script. Check QuestSystem settings.[/b]")
+				autoload_path = "quest_manager.gd"
+			autoload.queue_free()
+			autoload_path = ResourceUID.get_id_path(ResourceUID.text_to_id(autoload_path))
+
+		elif ResourceLoader.exists(autoload_path):
 			var autoload = load(autoload_path).new()
 			if autoload == null or not autoload is AbstractQuestManagerAPI:
 				print_rich("[color=red][!][/color] [b]Cannot override default autoload script!\n[color=red]The script is not valid.[/color]\nUsing default script. Check QuestSystem settings.[/b]")
@@ -23,6 +33,7 @@ func _enter_tree() -> void:
 		else:
 			print_rich("[color=red][!][/color] [b]Cannot override default autoload script!\n[color=red]The script does not exist.[/color]\nUsing default script. Check QuestSystem settings.[/b]")
 			autoload_path = "quest_manager.gd"
+
 
 	add_autoload_singleton("QuestSystem", autoload_path)
 
