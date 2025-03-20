@@ -3,7 +3,7 @@ name: quest-system-ci
 on:
   push:
     branches:
-      - main
+      - v1.x
     paths-ignore:
       - '**.jpg'
       - '**.png'
