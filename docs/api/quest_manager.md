@@ -6,7 +6,7 @@ The `QuestSystemManagerAPI` class is the main default autoload, which implements
 
 You can subclass `QuestSystemManagerAPI` and set the new script in `ProjectSettings -> QuestSystem -> Autoload Script Path` to edit or add new methods and signals to the `QuestSystem` autoload using `QuestSystemManagerAPI` as a base.<br>
 
-For more advanced, read the documentation of [AbstractQuestManagerAPI](/api/abstract_quest_manager.md).
+For a more advanced usage, read the documentation of [AbstractQuestManagerAPI](/api/abstract_quest_manager.md).
 
 ### Properties
 
@@ -18,8 +18,8 @@ For more advanced, read the documentation of [AbstractQuestManagerAPI](/api/abst
 
 ### Methods
 
-NOTE: Some methods has changed between Quest System 1.x and 2.x.<br>
-If you are using Quest System 1.x, please refer to the [Migration Guide to v2]() to know which methods have changed.
+NOTE: Some methods have changed between QuestSystem 1.x and 2.x.<br>
+If you are using QuestSystem 1.x, please refer to the [Migration Guide to v2]() to know which methods have changed.
 
 | Name | Return Type |
 | ---- | ----------- |
