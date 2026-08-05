@@ -13,15 +13,14 @@ config_version=5
 config/name="Quest System"
 config/tags=PackedStringArray("addons")
 run/main_scene="res://test/test.tscn"
-config/features=PackedStringArray("4.4", "Forward Plus")
-boot_splash/fullsize=false
+config/features=PackedStringArray("4.7", "Forward Plus")
+boot_splash/stretch_mode=0
 boot_splash/image="res://icon.png"
 config/icon="res://icon.svg"
 
 [autoload]
 
-Gamestate="*res://test/gamestate.gd"
-QuestSystem="*res://addons/quest_system/quest_manager.gd"
+QuestSystem="*uid://b77kvbliweux5"
 
 [editor_plugins]
 
@@ -29,4 +28,4 @@ enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg", "res://addons/quest
 
 [gdunit4]
 
-settings/test/test_lookup_folder="tests/"
+settings/test/test_lookup_folder="tests"
