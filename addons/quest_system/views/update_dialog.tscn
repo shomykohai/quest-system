@@ -1,11 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://dd06njq5elwlh"]
+[gd_scene format=3 uid="uid://dd06njq5elwlh"]
 
 [ext_resource type="Script" uid="uid://dv6t11qm1yhn3" path="res://addons/quest_system/views/update_dialog.gd" id="1_f82g1"]
 [ext_resource type="Texture2D" uid="uid://cwulkprc5aq8d" path="res://addons/quest_system/assets/update.svg" id="1_yub14"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j6wmr"]
 
-[node name="AcceptDialog" type="AcceptDialog"]
+[node name="AcceptDialog" type="AcceptDialog" unique_id=858023744]
+oversampling_override = 1.0
 title = "Update!"
 initial_position = 1
 size = Vector2i(600, 500)
@@ -16,22 +17,22 @@ max_size = Vector2i(600, 500)
 ok_button_text = "Close"
 script = ExtResource("1_f82g1")
 
-[node name="HTTPRequest" type="HTTPRequest" parent="."]
+[node name="HTTPRequest" type="HTTPRequest" parent="." unique_id=161120011]
 unique_name_in_owner = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1056913640]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 592.0
 offset_bottom = 451.0
 alignment = 1
 
-[node name="Logo" type="TextureRect" parent="VBoxContainer"]
+[node name="Logo" type="TextureRect" parent="VBoxContainer" unique_id=1827119702]
 layout_mode = 2
 texture = ExtResource("1_yub14")
 stretch_mode = 3
 
-[node name="VersionLabel" type="RichTextLabel" parent="VBoxContainer"]
+[node name="VersionLabel" type="RichTextLabel" parent="VBoxContainer" unique_id=1591251546]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_j6wmr")
@@ -41,20 +42,20 @@ Current:  [color=red]%s[/color]"
 fit_content = true
 shortcut_keys_enabled = false
 
-[node name="DownloadButton" type="Button" parent="VBoxContainer"]
+[node name="DownloadButton" type="Button" parent="VBoxContainer" unique_id=127486812]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 text = "Download"
 
-[node name="ReleaseNotes" type="TextEdit" parent="VBoxContainer"]
+[node name="ReleaseNotes" type="TextEdit" parent="VBoxContainer" unique_id=700030775]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 editable = false
 
-[node name="LinkButton" type="LinkButton" parent="VBoxContainer"]
+[node name="LinkButton" type="LinkButton" parent="VBoxContainer" unique_id=481739394]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
