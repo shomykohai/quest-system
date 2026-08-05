@@ -37,16 +37,16 @@ jobs:
       fail-fast: false
       max-parallel: 10
       matrix:
-        godot-version: ['4.4']
+        godot-version: ["4.5", "4.5.1", "4.6.3", "4.7.1"]
         godot-status: ['stable']
-    
+
     name: "🧪 CI on Godot ${{ matrix.godot-version }}"
     steps:
       - name: "📦 Checkout repository"
         uses: actions/checkout@v4
-      
+
       - name: "🧪 Run unit tests"
-        uses: MikeSchulze/gdUnit4-action@v1.1.1
+        uses: godot-gdunit-labs/gdUnit4-action@v1
         with:
           godot-version: ${{ matrix.godot-version }}
           godot-status: ${{ matrix.godot-status }}
@@ -68,4 +68,3 @@ jobs:
                contains(needs.*.result, 'failure')
             || contains(needs.*.result, 'cancelled')
           }}
-
