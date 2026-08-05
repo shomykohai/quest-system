@@ -19,6 +19,8 @@ func before() -> void:
 func before_test() -> void:
 	## Remove the quest from every pool before each test
 	QuestSystem.reset_pool("")
+	
+	await get_tree().process_frame 
 
 	## Reset objective completed
 	_quest.objective_completed = false
@@ -79,7 +81,7 @@ func test_is_quest_in_pool() -> void:
 func test_call_quest_method() -> void:
 	QuestSystem.start_quest(_quest)
 	QuestSystem.call_quest_method(_quest.id, &"update", [])
-	assert_signal(_quest).is_emitted(&"updated")
+	assert_signal(_quest).is_emitted(_quest.updated)
 
 func test_set_quest_property() -> void:
 	QuestSystem.start_quest(_quest)

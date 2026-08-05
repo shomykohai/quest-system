@@ -17,21 +17,21 @@ func before() -> void:
 
 func test_update() -> void:
 	_quest.update()
-	assert_signal(_quest).is_emitted(&"updated")
+	assert_signal(_quest).is_emitted(_quest.updated)
 
 func test_complete() -> void:
 	_quest.complete()
-	assert_signal(_quest).is_emitted(&"completed")
+	assert_signal(_quest).is_emitted(_quest.completed)
 
 func test_start() -> void:
 	_quest.start()
-	assert_signal(_quest).is_emitted(&"started")
+	assert_signal(_quest).is_emitted(_quest.started)
 
 func test_objective_status_updated_signal() -> void:
 	_quest.objective_completed = true
-	assert_signal(_quest).is_emitted(&"objective_status_updated")
+	assert_signal(_quest).is_emitted(_quest.objective_status_updated)
 	_quest.objective_completed = false
-	assert_signal(_quest).is_emitted(&"objective_status_updated")
+	assert_signal(_quest).is_emitted(_quest.objective_status_updated)
 
 func test_serialize() -> void:
 	var expected_dict: Dictionary = {
