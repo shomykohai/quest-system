@@ -3,7 +3,10 @@ extends GdUnitFailureAssert
 const GdUnitTools := preload("res://addons/gdUnit4/src/core/GdUnitTools.gd")
 
 var _is_failed := false
-var _failure_message :String
+var _failure_message := ""
+var _stack_trace: GdUnitStackTrace
+var _custom_failure_message := ""
+var _additional_failure_message := ""
 
 
 func _set_do_expect_fail(enabled :bool = true) -> void:
@@ -23,14 +26,18 @@ func execute_and_await(assertion :Callable, do_await := true) -> GdUnitFailureAs
 	else:
 		assertion.call()
 	_set_do_expect_fail(false)
+
 	# get the assert instance from current tread context
 	var current_assert := thread_context.get_assert()
 	if not is_instance_of(current_assert, GdUnitAssert):
 		_is_failed = true
 		_failure_message = "Invalid Callable! It must be a callable of 'GdUnitAssert'"
 		return self
-	@warning_ignore("unsafe_method_access")
-	_failure_message = current_assert.failure_message()
+
+	var last_error := thread_context.get_execution_context().last_error()
+	if last_error != null:
+		_stack_trace = last_error._stack_trace
+		_failure_message = last_error._message
 	return self
 
 
@@ -44,12 +51,10 @@ func _on_test_failed(value :bool) -> void:
 	_is_failed = value
 
 
-@warning_ignore("unused_parameter")
 func is_equal(_expected: Variant) -> GdUnitFailureAssert:
 	return _report_error("Not implemented")
 
 
-@warning_ignore("unused_parameter")
 func is_not_equal(_expected: Variant) -> GdUnitFailureAssert:
 	return _report_error("Not implemented")
 
@@ -60,6 +65,16 @@ func is_null() -> GdUnitFailureAssert:
 
 func is_not_null() -> GdUnitFailureAssert:
 	return _report_error("Not implemented")
+
+
+func override_failure_message(message: String) -> GdUnitFailureAssert:
+	_custom_failure_message = message
+	return self
+
+
+func append_failure_message(message: String) -> GdUnitFailureAssert:
+	_additional_failure_message = message
+	return self
 
 
 func is_success() -> GdUnitFailureAssert:
@@ -78,6 +93,14 @@ func has_line(expected :int) -> GdUnitFailureAssert:
 	var current := GdAssertReports.get_last_error_line_number()
 	if current != expected:
 		return _report_error("Expect: to failed on line '%d'\n but was '%d'." % [expected, current])
+	return self
+
+
+func has_stack_trace(stack_trace_elements: Array[GdUnitStackTraceElement]) -> GdUnitFailureAssert:
+	var current_stack_trace := str(_stack_trace)
+	var expected_stack_trace := str(GdUnitStackTrace.of(stack_trace_elements))
+	if current_stack_trace != expected_stack_trace:
+		return _report_error(GdAssertMessages.error_equal(current_stack_trace, expected_stack_trace))
 	return self
 
 
@@ -114,8 +137,10 @@ func starts_with_message(expected :String) -> GdUnitFailureAssert:
 
 
 func _report_error(error_message :String, failure_line_number: int = -1) -> GdUnitAssert:
-	var line_number := failure_line_number if failure_line_number != -1 else GdUnitAssertions.get_line_number()
-	GdAssertReports.report_error(error_message, line_number)
+	var stack_trace := GdUnitStackTrace.new()
+	var line_number := failure_line_number if failure_line_number != -1 else stack_trace.get_line_number()
+	var failure_message := GdAssertMessages.build_failure_message(error_message, _additional_failure_message, _custom_failure_message)
+	GdAssertReports.report_error(GdUnitError.new(failure_message, line_number, stack_trace))
 	return self
 
 

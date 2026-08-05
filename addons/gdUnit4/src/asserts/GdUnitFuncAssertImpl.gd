@@ -6,7 +6,6 @@ const DEFAULT_TIMEOUT := 2000
 
 
 var _current_value_provider :ValueProvider
-var _current_failure_message :String = ""
 var _custom_failure_message :String = ""
 var _additional_failure_message: String = ""
 var _line_number := -1
@@ -16,7 +15,7 @@ var _sleep_timer :Timer = null
 
 
 func _init(instance :Object, func_name :String, args := Array()) -> void:
-	_line_number = GdUnitAssertions.get_line_number()
+	_line_number = GdUnitStackTrace.new().get_line_number()
 	GdAssertReports.reset_last_error_line_number()
 	# save the actual assert instance on the current thread context
 	GdUnitThreadManager.get_current_context().set_assert(self)
@@ -50,21 +49,17 @@ func report_success() -> GdUnitFuncAssert:
 
 
 func report_error(failure :String) -> GdUnitFuncAssert:
-	_current_failure_message = GdAssertMessages.build_failure_message(failure, _additional_failure_message, _custom_failure_message)
-	GdAssertReports.report_error(_current_failure_message, _line_number)
+	var failure_message := GdAssertMessages.build_failure_message(failure, _additional_failure_message, _custom_failure_message)
+	GdAssertReports.report_error(GdUnitError.new(failure_message, _line_number, GdUnitStackTrace.new()))
 	return self
 
 
-func failure_message() -> String:
-	return _current_failure_message
-
-
-func override_failure_message(message :String) -> GdUnitFuncAssert:
+func override_failure_message(message: String) -> GdUnitFuncAssert:
 	_custom_failure_message = message
 	return self
 
 
-func append_failure_message(message :String) -> GdUnitFuncAssert:
+func append_failure_message(message: String) -> GdUnitFuncAssert:
 	_additional_failure_message = message
 	return self
 
@@ -98,12 +93,12 @@ func is_true() -> GdUnitFuncAssert:
 	return self
 
 
-func is_equal(expected :Variant) -> GdUnitFuncAssert:
+func is_equal(expected: Variant) -> GdUnitFuncAssert:
 	await _validate_callback(cb_is_equal, expected)
 	return self
 
 
-func is_not_equal(expected :Variant) -> GdUnitFuncAssert:
+func is_not_equal(expected: Variant) -> GdUnitFuncAssert:
 	await _validate_callback(cb_is_not_equal, expected)
 	return self
 
